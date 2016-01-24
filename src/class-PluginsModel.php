@@ -17,16 +17,12 @@ class PluginsModel {
 	static function getStat() {
 		$plugins      = get_plugins();
 		$plugins_list = array();
-		foreach ( $plugins as $path => $plugin ) {
-			$is_active = false;
-			if ( is_plugin_active( $path ) ) {
-				$is_active = true;
-			}
+		foreach ( $plugins as $plugin_path => $plugin ) {
 			array_push( $plugins_list, array(
 				'name'      => $plugin['Name'],
 				'version'   => $plugin['Version'],
-				'is_active' => $is_active,
-				'updates'   => self::checkUpdates( $path )
+				'is_active' => self::isActive( $plugin_path ),
+				'updates'   => self::checkUpdates( $plugin_path ),
 			) );
 		}
 
@@ -52,4 +48,19 @@ class PluginsModel {
 		}
 
 	}
+
+	/**
+	 * @param $plugin_path
+	 *
+	 * @return bool
+	 */
+	private static function isActive( $plugin_path ) {
+		$is_active = false;
+		if ( is_plugin_active( $plugin_path ) ) {
+			$is_active = true;
+		}
+
+		return $is_active;
+	}
+
 }

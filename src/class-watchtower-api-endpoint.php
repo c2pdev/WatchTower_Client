@@ -2,8 +2,6 @@
 
 namespace Whatarmy_Watchtower;
 
-use Whatarmy_Watchtower\PluginsModel as Plugins;
-
 class Watchtower_API_Endpoint {
 
 	public function __construct() {
@@ -43,7 +41,7 @@ class Watchtower_API_Endpoint {
 		} else if ( $query === 'pages' ) {
 			$this->send_response( $this->api_get_pages() );
 		} else if ( $query === 'plugins' ) {
-			$this->send_response( Plugins::getStat() );
+			$this->send_response( PluginsModel::getStat() );
 		} else {
 			$this->send_response( 'Error', 'Invalid request' );
 		}
