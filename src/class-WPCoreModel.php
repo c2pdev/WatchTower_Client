@@ -31,11 +31,16 @@ class WPCoreModel {
 
 	static function checkUpdates() {
 		$updates = get_option( '_site_transient_update_core' );
-		
+
 		if ( isset( $updates->updates[0]->response ) && $updates->updates[0]->response == 'upgrade' ) {
 			return array(
 				'required'    => true,
 				'new_version' => $updates->updates[0]->current
+
+			);
+		} else {
+			return array(
+				'required' => false,
 
 			);
 		}
