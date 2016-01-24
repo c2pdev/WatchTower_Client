@@ -44,12 +44,28 @@ class Watchtower {
 		$this->options = get_option( 'watchtower' );
 		?>
 		<div class="wrap">
+			<style>
+				.watchtower_token_field {
+					background: #ffea96 !important;
+				}
+
+				.watchtower_token_area, .watchtower_token_field {
+					font-size: 20px;
+					padding: 10px;
+				}
+
+				.watchtower_token_area {
+					margin: auto;
+					float: left;
+					padding-left: 0px;
+				}
+			</style>
 			<h2>Watchtower Settings</h2>
 			<form method="post" action="options.php">
 				<?php
 				settings_fields( 'watchtower' );
 				do_settings_sections( 'watchtower-settings' );
-				submit_button();
+				submit_button( 'Update settings' );
 				?>
 			</form>
 		</div>
@@ -101,7 +117,7 @@ class Watchtower {
 	 *
 	 */
 	public function access_token_info() {
-		print '<code style="font-size:24px;padding:10px;">' . get_option( 'watchtower' )['access_token'] . '</code>';
+		print '<span class="watchtower_token_area">CurrentToken: <span class="watchtower_token_field">' . get_option( 'watchtower' )['access_token'] . '</span></span>';
 	}
 
 	/**
