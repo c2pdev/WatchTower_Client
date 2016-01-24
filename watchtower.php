@@ -15,9 +15,10 @@ if ( ! function_exists( 'get_plugins' ) ) {
 /**
  * Activation Hook
  */
-register_activation_hook( __FILE__, array( '\Whatarmy_Watchtower\Watchtower', 'install' ) );
+register_activation_hook( __FILE__, array( '\Whatarmy_Watchtower\Install_Uninstall', 'install' ) );
 
 /**
  * RUN API ENDPOINT
  */
 new \Whatarmy_Watchtower\Watchtower_API_Endpoint();
+new \Whatarmy_Watchtower\Watchtower();

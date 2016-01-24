@@ -14,16 +14,25 @@ class Watchtower_API_Endpoint {
 	public function add_query_vars( $vars ) {
 		$vars[] = '__watchtower-api';
 		$vars[] = 'query';
+		$vars[] = 'access_token';
 
 		return $vars;
 	}
 
 	// Add API Endpoint
 	public function add_endpoint() {
-		add_rewrite_rule( '^watchtower-api/?([^/]+)?/?', 'index.php?__watchtower-api=1&query=$matches[1]', 'top' );
+		add_rewrite_rule( '^watchtower-api/?([a-zA-Z0-9]+)?/?([a-zA-Z]+)?/?', 'index.php?__watchtower-api=1&access_token=$matches[1]&query=$matches[2]', 'top' );
 
 	}
 
+
+	protected static function haveAccess( $token ) {
+		if ( $token == get_option( 'watchtower' )['access_token'] ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	public function sniff_requests() {
 		global $wp;
@@ -35,15 +44,17 @@ class Watchtower_API_Endpoint {
 
 	protected function handle_request() {
 		global $wp;
-		$query = $wp->query_vars['query'];
-		if ( $query === 'core' ) {
+		$query        = $wp->query_vars['query'];
+		$access_token = self::haveAccess( $wp->query_vars['access_token'] );
+
+		if ( $query === 'core' && $access_token ) {
 			$this->send_response( WPCoreModel::getStat() );
-		} else if ( $query === 'pages' ) {
+		} else if ( $query === 'pages' && $access_token ) {
 			$this->send_response( $this->api_get_pages() );
-		} else if ( $query === 'plugins' ) {
+		} else if ( $query === 'plugins' && $access_token ) {
 			$this->send_response( PluginsModel::getStat() );
 		} else {
-			$this->send_response( 'Error', 'Invalid request' );
+			$this->send_response( 'Error', 'Invalid request or access token' );
 		}
 
 	}
