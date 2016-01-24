@@ -14,7 +14,7 @@ class PluginsModel {
 	/**
 	 * @return mixed
 	 */
-	static function getPluginsStat() {
+	static function getStat() {
 		$plugins      = get_plugins();
 		$plugins_list = array();
 		foreach ( $plugins as $path => $plugin ) {
@@ -33,6 +33,11 @@ class PluginsModel {
 		return $plugins_list;
 	}
 
+	/**
+	 * @param $plugin
+	 *
+	 * @return array
+	 */
 	static function checkUpdates( $plugin ) {
 		$list = get_option( '_site_transient_update_plugins' );
 		if ( array_key_exists( $plugin, $list->response ) ) {

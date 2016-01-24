@@ -39,11 +39,11 @@ class Watchtower_API_Endpoint {
 		global $wp;
 		$query = $wp->query_vars['query'];
 		if ( $query === 'core' ) {
-			$this->send_response( WPCoreModel::get_stats() );
+			$this->send_response( WPCoreModel::getStat() );
 		} else if ( $query === 'pages' ) {
 			$this->send_response( $this->api_get_pages() );
 		} else if ( $query === 'plugins' ) {
-			$this->send_response( Plugins::getPluginsStat() );
+			$this->send_response( Plugins::getStat() );
 		} else {
 			$this->send_response( 'Error', 'Invalid request' );
 		}

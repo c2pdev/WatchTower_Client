@@ -14,7 +14,7 @@ class WPCoreModel {
 	/**
 	 * @return array
 	 */
-	static function get_stats() {
+	static function getStat() {
 		$stats = array(
 			'site'             => get_option( 'blogname' ),
 			'site_description' => get_option( 'blogdescription' ),
@@ -29,6 +29,9 @@ class WPCoreModel {
 
 	}
 
+	/**
+	 * @return array
+	 */
 	static function checkUpdates() {
 		$updates = get_option( '_site_transient_update_core' );
 
