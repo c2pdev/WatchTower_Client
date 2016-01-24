@@ -34,7 +34,7 @@ class PluginsModel {
 	 *
 	 * @return array
 	 */
-	static function checkUpdates( $plugin ) {
+	private static function checkUpdates( $plugin ) {
 		$list = get_option( '_site_transient_update_plugins' );
 		if ( array_key_exists( $plugin, $list->response ) ) {
 			return array(

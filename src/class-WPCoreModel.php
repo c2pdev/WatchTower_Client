@@ -32,7 +32,7 @@ class WPCoreModel {
 	/**
 	 * @return array
 	 */
-	static function checkUpdates() {
+	private static function checkUpdates() {
 		$updates = get_option( '_site_transient_update_core' );
 
 		if ( isset( $updates->updates[0]->response ) && $updates->updates[0]->response == 'upgrade' ) {
