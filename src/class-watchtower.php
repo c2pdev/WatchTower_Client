@@ -44,7 +44,7 @@ class Watchtower {
 		$this->options = get_option( 'watchtower' );
 		?>
 		<div class="wrap">
-			<h2>Watch Tower Settings</h2>
+			<h2>Watchtower Settings</h2>
 			<form method="post" action="options.php">
 				<?php
 				settings_fields( 'watchtower' );
