@@ -109,7 +109,7 @@ class Watchtower {
 	 */
 	public function access_token_callback() {
 		printf(
-			'<input type="hidden" id="access_token" name="watchtower[access_token]" value="'.Token::generateToken().'" />',
+			'<input type="hidden" id="access_token" name="watchtower[access_token]" value="' . Token::generateToken() . '" />',
 			isset( $this->options['access_token'] ) ? esc_attr( $this->options['access_token'] ) : ''
 		);
 	}
