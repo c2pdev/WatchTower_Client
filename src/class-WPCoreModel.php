@@ -19,9 +19,11 @@ class WPCoreModel {
 			'site'             => get_option( 'blogname' ),
 			'site_description' => get_option( 'blogdescription' ),
 			'site_url'         => get_site_url(),
+			'is_multisite'     => ( is_multisite() ? true : false ),
 			'template'         => get_option( 'template' ),
 			'wp_version'       => get_bloginfo( 'version' ),
 			'admin_email'      => get_option( 'admin_email' ),
+			'php_version'      => phpversion(),
 			'updates'          => self::checkUpdates(),
 		);
 
@@ -49,4 +51,5 @@ class WPCoreModel {
 		}
 
 	}
+
 }
