@@ -4,7 +4,7 @@ Plugin Name: Whatarmy Watchtower
 Plugin URI:
 Description: Data about website
 Author: Code2prog
-Version: 1.0.5
+Version: 1.0.6
 Author URI:
 */
 require 'plugin_update_check.php';

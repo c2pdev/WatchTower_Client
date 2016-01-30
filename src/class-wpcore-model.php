@@ -16,7 +16,7 @@ class WPCore_Model {
 	 */
 	static function getStat() {
 		$stats = array(
-			'site'             => get_option( 'blogname' ),
+			'site_name'        => get_option( 'blogname' ),
 			'site_description' => get_option( 'blogdescription' ),
 			'site_url'         => get_site_url(),
 			'is_multisite'     => ( is_multisite() ? true : false ),
