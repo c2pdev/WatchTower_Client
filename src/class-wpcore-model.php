@@ -19,7 +19,7 @@ class WPCore_Model {
 			'site_name'        => get_option( 'blogname' ),
 			'site_description' => get_option( 'blogdescription' ),
 			'site_url'         => get_site_url(),
-			'is_multisite'     => ( is_multisite() ? true : false ),
+			'is_multisite'     => ( is_multisite() ? 'true' : 'false' ),
 			'template'         => get_option( 'template' ),
 			'wp_version'       => get_bloginfo( 'version' ),
 			'admin_email'      => get_option( 'admin_email' ),
