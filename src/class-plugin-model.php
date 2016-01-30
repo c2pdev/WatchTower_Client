@@ -9,7 +9,7 @@
 namespace Whatarmy_Watchtower;
 
 
-class PluginsModel {
+class Plugin_Model {
 
 	/**
 	 * @return mixed

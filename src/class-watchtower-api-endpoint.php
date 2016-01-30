@@ -49,15 +49,15 @@ class Watchtower_API_Endpoint {
 
 		switch ( true ) {
 			case ( $query === 'core' && $access_token ):
-				$this->send_response( WPCoreModel::getStat() );
+				$this->send_response( WPCore_Model::getStat() );
 				break;
 			case ( $query === 'plugins' && $access_token ):
-				$this->send_response( PluginsModel::getStat() );
+				$this->send_response( Plugin_Model::getStat() );
 				break;
 			case ( $query === 'all' && $access_token ):
 				$this->send_response( array(
-					'core'    => WPCoreModel::getStat(),
-					'plugins' => PluginsModel::getStat(),
+					'core'    => WPCore_Model::getStat(),
+					'plugins' => Plugin_Model::getStat(),
 				) );
 				break;
 			default:

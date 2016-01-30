@@ -9,7 +9,7 @@
 namespace Whatarmy_Watchtower;
 
 
-class WPCoreModel {
+class WPCore_Model {
 
 	/**
 	 * @return array
