@@ -47,14 +47,22 @@ class Watchtower_API_Endpoint {
 		$query        = $wp->query_vars['query'];
 		$access_token = self::haveAccess( $wp->query_vars['access_token'] );
 
-		if ( $query === 'core' && $access_token ) {
-			$this->send_response( WPCoreModel::getStat() );
-		} else if ( $query === 'pages' && $access_token ) {
-			$this->send_response( $this->api_get_pages() );
-		} else if ( $query === 'plugins' && $access_token ) {
-			$this->send_response( PluginsModel::getStat() );
-		} else {
-			$this->send_response( 'Error', 'Invalid request or access token' );
+		switch ( true ) {
+			case ( $query === 'core' && $access_token ):
+				$this->send_response( WPCoreModel::getStat() );
+				break;
+			case ( $query === 'plugins' && $access_token ):
+				$this->send_response( PluginsModel::getStat() );
+				break;
+			case ( $query === 'all' && $access_token ):
+				$this->send_response( array(
+					'core'    => WPCoreModel::getStat(),
+					'plugins' => PluginsModel::getStat(),
+				) );
+				break;
+			default:
+				$this->send_response( 'Error', 'Invalid request or access token' );
+				break;
 		}
 
 	}
@@ -65,20 +73,4 @@ class Watchtower_API_Endpoint {
 		exit;
 	}
 
-	protected function api_get_pages() {
-		$args   = array(
-			'sort_order'  => 'ASC',
-			'sort_column' => 'post_title',
-			'post_type'   => 'page',
-			'post_status' => 'publish'
-		);
-		$pages  = get_pages( $args );
-		$result = array();
-		foreach ( $pages as $page => $value ) {
-			$result[] = $value;
-		}
-
-		return $result;
-
-	}
 }
