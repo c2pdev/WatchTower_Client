@@ -17,11 +17,12 @@ class Theme_Model {
 	static function getStat() {
 		$themes      = wp_get_themes();
 		$themes_list = array();
-		
+		print_r( $themes );
 		foreach ( $themes as $theme_shortname => $theme ) {
 			array_push( $themes_list, array(
 				'name'    => $theme['Name'],
 				'version' => $theme['Version'],
+				'theme'   => $theme_shortname,
 				'updates' => self::checkUpdates( $theme_shortname ),
 			) );
 		}
