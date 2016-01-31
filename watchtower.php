@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Whatarmy Watchtower
-Plugin URI:
+Plugin URI: https://github.com/c2pdev/WatchTower_Client
 Description: WP website monitoring API
 Author: Code2prog
-Version: 1.0.12
-Author URI:
+Version: 1.0.13
+Author URI: http://whatarmy.com
 */
 require 'vendor/autoload.php';
 require 'plugin-update-checker/plugin-update-checker.php';
