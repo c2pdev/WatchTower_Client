@@ -2,9 +2,9 @@
 /*
 Plugin Name: Whatarmy Watchtower
 Plugin URI:
-Description: Data about website
+Description: WP website monitoring API
 Author: Code2prog
-Version: 1.0.8
+Version: 1.0.9
 Author URI:
 */
 require 'vendor/autoload.php';
