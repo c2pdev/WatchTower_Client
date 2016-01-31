@@ -1,2 +1,2 @@
-WatchTower Client!
+WatchTower Client
 ===================
