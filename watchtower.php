@@ -4,17 +4,17 @@ Plugin Name: Whatarmy Watchtower
 Plugin URI:
 Description: Data about website
 Author: Code2prog
-Version: 1.0.7
+Version: 1.0.8
 Author URI:
 */
-require 'plugin_update_check.php';
-$MyUpdateChecker = new PluginUpdateChecker_2_0 (
-	'https://kernl.us/api/v1/updates/56ac30fbdf35162478330b0f/',
-	__FILE__,
-	'whatarmy-watchtower',
-	1
-);
 require 'vendor/autoload.php';
+require 'plugin-update-checker/plugin-update-checker.php';
+$className = PucFactory::getLatestClassVersion('PucGitHubChecker');
+$myUpdateChecker = new $className(
+	'https://github.com/c2pdev/WatchTower_Client/',
+	__FILE__,
+	'master'
+);
 register_wp_autoload( 'Whatarmy_Watchtower\\', __DIR__ . '/src' );
 if ( ! function_exists( 'get_plugins' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/plugin.php';
