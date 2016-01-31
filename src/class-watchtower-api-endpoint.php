@@ -54,10 +54,14 @@ class Watchtower_API_Endpoint {
 			case ( $query === 'plugins' && $access_token ):
 				$this->send_response( Plugin_Model::getStat() );
 				break;
+			case ( $query === 'themes' && $access_token ):
+				$this->send_response( Theme_Model::getStat() );
+				break;
 			case ( $query === 'all' && $access_token ):
 				$this->send_response( array(
 					'core'    => WPCore_Model::getStat(),
 					'plugins' => Plugin_Model::getStat(),
+					'themes'  => Theme_Model::getStat(),
 				) );
 				break;
 			default:

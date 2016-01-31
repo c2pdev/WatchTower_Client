@@ -4,10 +4,14 @@ Plugin Name: Whatarmy Watchtower
 Plugin URI: https://github.com/c2pdev/WatchTower_Client
 Description: WP website monitoring API
 Author: Code2prog
-Version: 1.0.14
+Version: 1.1.0
 Author URI: http://whatarmy.com
 */
+
 require 'vendor/autoload.php';
+/**
+ * UPDATE Plugin
+ */
 require 'plugin-update-checker/plugin-update-checker.php';
 $className = PucFactory::getLatestClassVersion('PucGitHubChecker');
 $myUpdateChecker = new $className(
