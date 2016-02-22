@@ -25,6 +25,7 @@ class WPCore_Model {
 			'admin_email'      => get_option( 'admin_email' ),
 			'php_version'      => phpversion(),
 			'updates'          => self::checkUpdates(),
+			'is_public'        => get_option( 'blog_public' ),
 		);
 
 		return $stats;
