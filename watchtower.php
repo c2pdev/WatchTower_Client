@@ -4,7 +4,7 @@ Plugin Name: Whatarmy Watchtower
 Plugin URI: https://github.com/c2pdev/WatchTower_Client
 Description: WP website monitoring API
 Author: Code2prog
-Version: 1.1.6
+Version: 1.1.7
 Author URI: http://whatarmy.com
 */
 
