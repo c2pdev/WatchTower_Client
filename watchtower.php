@@ -17,6 +17,14 @@ require 'vendor/autoload.php';
  * UPDATE Plugin
  */
 require 'plugin-update-checker/plugin-update-checker.php';
+$className       = PucFactory::getLatestClassVersion( 'PucGitHubChecker' );
+$myUpdateChecker = new $className(
+	'https://github.com/c2pdev/WatchTower_Client',
+	__FILE__,
+	'master'
+);
+
+
 /**
  * Register autoload SRC
  */
