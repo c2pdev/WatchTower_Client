@@ -48,6 +48,11 @@ class Watchtower_API_Endpoint {
 		$access_token = self::haveAccess( $wp->query_vars['access_token'] );
 
 		switch ( true ) {
+			case ( $query === 'test' && $access_token ):
+				$this->send_response( array(
+					'status' => '200 OK'
+				) );
+				break;
 			case ( $query === 'core' && $access_token ):
 				$this->send_response( WPCore_Model::getStat() );
 				break;
@@ -59,6 +64,7 @@ class Watchtower_API_Endpoint {
 				break;
 			case ( $query === 'all' && $access_token ):
 				$this->send_response( array(
+					'status'  => '200 OK',
 					'core'    => WPCore_Model::getStat(),
 					'plugins' => Plugin_Model::getStat(),
 					'themes'  => Theme_Model::getStat(),
