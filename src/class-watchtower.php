@@ -21,7 +21,12 @@ class Watchtower {
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'add_plugin_page' ) );
 		add_action( 'admin_init', array( $this, 'page_init' ) );
-
+		$className       = \PucFactory::getLatestClassVersion( 'PucGitHubChecker' );
+		$myUpdateChecker = new $className(
+			'https://github.com/c2pdev/WatchTower_Client',
+			__FILE__,
+			'master'
+		);
 	}
 
 	/**
