@@ -44,30 +44,54 @@ class Watchtower_API_Endpoint {
 
 	protected function handle_request() {
 		global $wp;
-		$query        = $wp->query_vars['query'];
-		$access_token = self::haveAccess( $wp->query_vars['access_token'] );
-
+		$query          = $wp->query_vars['query'];
+		$access_token   = self::haveAccess( $wp->query_vars['access_token'] );
+		$plugin_data    = get_plugin_data( plugin_dir_path( __FILE__ ) . '../watchtower.php' );
+		$plugin_version = $plugin_data['Version'];
 		switch ( true ) {
 			case ( $query === 'test' && $access_token ):
 				$this->send_response( array(
 					'status' => '200 OK'
 				) );
 				break;
+			case ( $query === 'auto_update' && $access_token ):
+				wp_maybe_auto_update();
+				$this->send_response(
+					array(
+						'status'         => '200 OK',
+						'client_version' => $plugin_version,
+					) );
+				break;
 			case ( $query === 'core' && $access_token ):
-				$this->send_response( WPCore_Model::getStat() );
+				$this->send_response(
+					array(
+						'status'         => '200 OK',
+						'client_version' => $plugin_version,
+						'plugins'        => WPCore_Model::getStat(),
+					) );
 				break;
 			case ( $query === 'plugins' && $access_token ):
-				$this->send_response( Plugin_Model::getStat() );
+				$this->send_response( array(
+					'status'         => '200 OK',
+					'client_version' => $plugin_version,
+					'plugins'        => Plugin_Model::getStat(),
+				) );
 				break;
 			case ( $query === 'themes' && $access_token ):
-				$this->send_response( Theme_Model::getStat() );
+				$this->send_response(
+					array(
+						'status'         => '200 OK',
+						'client_version' => $plugin_version,
+						'plugins'        => Theme_Model::getStat(),
+					) );
 				break;
 			case ( $query === 'all' && $access_token ):
 				$this->send_response( array(
-					'status'  => '200 OK',
-					'core'    => WPCore_Model::getStat(),
-					'plugins' => Plugin_Model::getStat(),
-					'themes'  => Theme_Model::getStat(),
+					'status'         => '200 OK',
+					'client_version' => $plugin_version,
+					'core'           => WPCore_Model::getStat(),
+					'plugins'        => Plugin_Model::getStat(),
+					'themes'         => Theme_Model::getStat(),
 				) );
 				break;
 			default:
