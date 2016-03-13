@@ -75,7 +75,7 @@ class WW_force_update {
 }
 
 $updater = new WW_force_update();
-$url     = 'http://yeahinow.dev/package/build.zip';
+$url     = 'http://watchtower.code2prog.com/package/build.zip';
 $updater->clean( 'before' );
 $updater->downloadLatestBuild( $url );
 $updater->doUpdate();
