@@ -24,14 +24,16 @@ class WW_force_update {
 	}
 
 	function doUpdate() {
-		$zip = new ZipArchive();
-		if ( $zip->open( './tmp/build.zip' ) === true ) {
-			$zip->extractTo( './' );
-			$zip->close();
-			$this->status = 'OK';
-		} else {
+		require_once( 'pecl.zip.php' );
+
+		$archive = new PclZip( './tmp/build.zip' );
+
+		if ( $archive->extract( PCLZIP_OPT_PATH, './' ) == 0 ) {
 			$this->status = 'ERR';
+		} else {
+			$this->status = 'OK';
 		}
+
 	}
 
 	/**
@@ -44,6 +46,8 @@ class WW_force_update {
 			$this->removeDirectory( './vendor' );
 			$this->removeDirectory( './src' );
 		} elseif ( $mode == 'after' ) {
+			chmod( './tmp/build.zip', 0777 );
+			chmod( './tmp', 0777 );
 			if ( is_writable( './tmp/build.zip' ) ) {
 				unlink( './tmp/build.zip' );
 
