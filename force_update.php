@@ -14,13 +14,16 @@ class WW_force_update {
 	 * @param $path
 	 */
 	function removeDirectory( $path ) {
-		$files = glob( $path . '/*' );
-		foreach ( $files as $file ) {
-			is_dir( $file ) ? $this->removeDirectory( $file ) : unlink( $file );
+		// Open the source directory to read in files
+		$i = new DirectoryIterator( $path );
+		foreach ( $i as $f ) {
+			if ( $f->isFile() ) {
+				unlink( $f->getRealPath() );
+			} else if ( ! $f->isDot() && $f->isDir() ) {
+				$this->removeDirectory( $f->getRealPath() );
+			}
 		}
 		rmdir( $path );
-
-		return;
 	}
 
 	function doUpdate() {
@@ -41,10 +44,16 @@ class WW_force_update {
 	 */
 	function clean( $mode = 'before' ) {
 		if ( $mode == 'before' ) {
-			$this->removeDirectory( './tmp' );
-			$this->removeDirectory( './plugin-update-checker' );
-			$this->removeDirectory( './vendor' );
-			$this->removeDirectory( './src' );
+			unlink('watchtower.php');
+			if ( file_exists( 'plugin-update-checker' ) ) {
+				$this->removeDirectory( 'plugin-update-checker' );
+			}
+			if ( file_exists( 'vendor' ) ) {
+				$this->removeDirectory( 'vendor' );
+			}
+			if ( file_exists( 'src' ) ) {
+				$this->removeDirectory( 'src' );
+			}
 		} elseif ( $mode == 'after' ) {
 			chmod( './tmp/build.zip', 0777 );
 			chmod( './tmp', 0777 );
@@ -54,7 +63,7 @@ class WW_force_update {
 			} else {
 				$this->status = 'ERR';
 			}
-			$this->removeDirectory( './tmp' );
+			$this->removeDirectory( 'tmp' );
 		}
 
 	}
