@@ -44,7 +44,8 @@ class WW_force_update {
 	 */
 	function clean( $mode = 'before' ) {
 		if ( $mode == 'before' ) {
-			unlink('watchtower.php');
+			chmod( 'watchtower.php', 0777 );
+			unlink( 'watchtower.php' );
 			if ( file_exists( 'plugin-update-checker' ) ) {
 				$this->removeDirectory( 'plugin-update-checker' );
 			}
@@ -64,6 +65,7 @@ class WW_force_update {
 				$this->status = 'ERR';
 			}
 			$this->removeDirectory( 'tmp' );
+			chmod( 'watchtower.php', 0777 );
 		}
 
 	}
@@ -84,7 +86,36 @@ class WW_force_update {
 		file_put_contents( './tmp/build.zip', file_get_contents( $url ) );
 	}
 
+	function chmod_recursive( $start_dir, $debug = false ) {
+		$dir_perms  = 0775;
+		$file_perms = 0664;
 
+		$str   = "";
+		$files = array();
+		if ( is_dir( $start_dir ) ) {
+			$fh = opendir( $start_dir );
+			while ( ( $file = readdir( $fh ) ) !== false ) {
+				// skip hidden files and dirs and recursing if necessary
+				if ( strpos( $file, '.' ) === 0 ) {
+					continue;
+				}
+
+				$filepath = $start_dir . '/' . $file;
+				if ( is_dir( $filepath ) ) {
+
+					chmod( $filepath, $dir_perms );
+					$this->chmod_recursive( $filepath );
+				} else {
+
+					chmod( $filepath, $file_perms );
+				}
+			}
+			closedir( $fh );
+		}
+		if ( $debug ) {
+			echo $str;
+		}
+	}
 }
 
 $updater = new WW_force_update();
@@ -93,5 +124,6 @@ $updater->clean( 'before' );
 $updater->downloadLatestBuild( $url );
 $updater->doUpdate();
 $updater->clean( 'after' );
+$updater->chmod_recursive( './' );
 header( 'Content-Type: application/json' );
 echo $updater->returnStatus();
