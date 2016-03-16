@@ -13,5 +13,6 @@ class Install_Uninstall {
 		add_option( 'watchtower', array(
 			'access_token' => $token,
 		) );
+		flush_rewrite_rules();
 	}
 }
