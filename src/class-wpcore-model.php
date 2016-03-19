@@ -27,6 +27,8 @@ class WPCore_Model {
 			'updates'           => self::checkUpdates(),
 			'is_public'         => get_option( 'blog_public' ),
 			'installation_size' => self::display_size( self::filesize_recursive( ABSPATH ) ),
+			'comments'          => wp_count_comments(),
+			'site_ip'           => $_SERVER['REMOTE_ADDR'],
 		);
 
 		return $stats;
