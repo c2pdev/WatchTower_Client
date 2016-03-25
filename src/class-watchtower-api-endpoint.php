@@ -51,11 +51,11 @@ class Watchtower_API_Endpoint {
 		switch ( true ) {
 			case ( $query === 'test' && $access_token ):
 				$this->send_response( array(
-					'status' => '200 OK'
+					'status' => '200 OK',
 				) );
 				break;
 			case ( $query === 'auto_update' && $access_token ):
-				wp_maybe_auto_update();
+				wp_update_plugins();
 				$this->send_response(
 					array(
 						'status'         => '200 OK',
