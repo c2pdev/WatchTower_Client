@@ -35,7 +35,8 @@ class Plugin_Model {
 	 * @return array
 	 */
 	private static function checkUpdates( $plugin ) {
-		$list = get_option( '_site_transient_update_plugins' );
+		do_action( "wp_update_plugins" );
+		$list = get_site_transient( 'update_plugins' );
 		if ( array_key_exists( $plugin, $list->response ) ) {
 			return array(
 				'required' => true,

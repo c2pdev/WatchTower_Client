@@ -39,14 +39,19 @@ class WPCore_Model {
 	 * @return array
 	 */
 	private static function checkUpdates() {
-		$updates = get_option( '_site_transient_update_core' );
+		global $wp_version;
+		do_action( "wp_version_check" ); // force WP to check its core for updates
+		$update_core = get_site_transient( "update_core" ); // get information of updates
 
-		if ( isset( $updates->updates[0]->response ) && $updates->updates[0]->response == 'upgrade' ) {
+		if ( 'upgrade' == $update_core->updates[0]->response ) {
+			require_once( ABSPATH . WPINC . '/version.php' );
+			$new_core_ver = $update_core->updates[0]->current; // The new WP core version
+			$old_core_ver = $wp_version; // the old WP core versions
 			return array(
 				'required'    => true,
-				'new_version' => $updates->updates[0]->current
-
+				'new_version' => $new_core_ver,
 			);
+
 		} else {
 			return array(
 				'required' => false,
