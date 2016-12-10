@@ -29,10 +29,25 @@ class WPCore_Model {
 			'installation_size' => self::display_size( self::filesize_recursive( ABSPATH ) ),
 			'comments'          => wp_count_comments(),
 			'site_ip'           => $_SERVER['REMOTE_ADDR'],
+			'db_size'           => self::getDBSize(),
 		);
 
 		return $stats;
 
+	}
+
+	private static function getDBSize() {
+		global $wpdb;
+		$querystr = 'SELECT table_name, table_rows, data_length, index_length,  round(((data_length + index_length) / 1024 / 1024),2) "size" FROM information_schema.TABLES WHERE table_schema = "' . $wpdb->dbname . '";';
+
+
+		$query = $wpdb->get_results( $querystr );
+		$size  = 0;
+		foreach ( $query as $q ) {
+			$size += $q->size;
+		}
+
+		return $size;
 	}
 
 	/**
