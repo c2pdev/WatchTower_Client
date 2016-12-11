@@ -49,6 +49,12 @@ class Watchtower_API_Endpoint {
 		$plugin_data    = get_plugin_data( plugin_dir_path( __FILE__ ) . '../watchtower.php' );
 		$plugin_version = $plugin_data['Version'];
 		switch ( true ) {
+			case ( $query === 'login' ):
+				$this->send_response( array(
+					'status' => '200 OK',
+					'data'   => WPCore_Model::sign_in()
+			) );
+				break;
 			case ( $query === 'test' && $access_token ):
 				$this->send_response( array(
 					'status' => '200 OK',
