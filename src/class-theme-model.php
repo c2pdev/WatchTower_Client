@@ -37,11 +37,17 @@ class Theme_Model {
 	private static function checkUpdates( $theme ) {
 		$list = get_option( '_site_transient_update_themes' );
 
-		if ( array_key_exists( $theme, $list->response ) ) {
-			return array(
-				'required' => true,
-				'version'  => $list->response[ $theme ]['new_version']
-			);
+		if ( is_array( $list->response ) ) {
+			if ( array_key_exists( $theme, $list->response ) ) {
+				return array(
+					'required' => true,
+					'version'  => $list->response[ $theme ]['new_version']
+				);
+			} else {
+				return array(
+					'required' => false,
+				);
+			}
 		} else {
 			return array(
 				'required' => false,
