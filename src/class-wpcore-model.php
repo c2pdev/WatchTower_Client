@@ -28,6 +28,7 @@ class WPCore_Model {
 			'is_public'         => get_option( 'blog_public' ),
 			'installation_size' => self::display_size( self::filesize_recursive( ABSPATH ) ),
 			'comments'          => wp_count_comments(),
+			'comments_allowed'  => ( get_default_comment_status() == 'open' ) ? true : false,
 			'site_ip'           => $_SERVER['REMOTE_ADDR'],
 			'db_size'           => self::getDBSize(),
 		);
