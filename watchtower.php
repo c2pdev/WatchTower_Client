@@ -4,11 +4,12 @@ Plugin Name: Whatarmy Watchtower
 Plugin URI: https://github.com/c2pdev/WatchTower_Client
 Description: WP website monitoring API
 Author: Code2prog
-Version: 1.1.57
+Version: 1.1.58
 Author URI: http://whatarmy.com
 */
-if ( version_compare( PHP_VERSION, '5.3', '<' ) ) {
-	exit( sprintf( 'Whatarmy WatchTower requires PHP 5.3 or higher. You’re still on %s.', PHP_VERSION ) );
+
+if (version_compare(PHP_VERSION, '5.4', '<')) {
+	wp_die('PHP 5.4 or better is required.');
 }
 /**
  * Composer dependencies autoload

@@ -31,6 +31,11 @@ class WPCore_Model {
 			'comments_allowed'  => ( get_default_comment_status() == 'open' ) ? true : false,
 			'site_ip'           => $_SERVER['REMOTE_ADDR'],
 			'db_size'           => self::getDBSize(),
+			'timezone'          => array(
+				'gmt_offset' => get_option( 'gmt_offset' ),
+				'string'     => get_option( 'timezone_string' ),
+				'server_timezone' => date_default_timezone_get(),
+			),
 		);
 
 		return $stats;
