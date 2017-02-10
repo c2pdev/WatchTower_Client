@@ -21,8 +21,43 @@ class Watchtower {
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'add_plugin_page' ) );
 		add_action( 'admin_init', array( $this, 'page_init' ) );
-
+		add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widgets' ) );
 	}
+
+	public function dashboard_widget_function( $post, $callback_args ) {
+		$rss = fetch_feed( 'https://whatarmy.com/feed/' );
+
+		$maxitems = 0;
+
+		if ( ! is_wp_error( $rss ) ) :
+			$maxitems = $rss->get_item_quantity( 8 );
+			$rss_items = $rss->get_items( 0, $maxitems );
+
+		endif;
+		?>
+        <ul>
+		<?php if ( $maxitems == 0 ) : ?>
+            <li><?php _e( 'Nothing to show!', 'my-text-domain' ); ?></li>
+		<?php else : ?>
+			<?php foreach ( $rss_items as $item ) : ?>
+                <li>
+                    <a href="<?php echo esc_url( $item->get_permalink() ); ?>" target="_blank"
+                       title="<?php printf( __( 'Posted %s', 'my-text-domain' ), $item->get_date( 'j F Y | g:i a' ) ); ?>">
+						<?php echo esc_html( $item->get_title() ); ?>
+                    </a>
+                </li>
+			<?php endforeach; ?>
+		<?php endif; ?>
+        </ul><?php
+	}
+
+	public function add_dashboard_widgets() {
+		wp_add_dashboard_widget( 'dashboard_widget', 'Whatarmy Tips & Tricks', array(
+			$this,
+			'dashboard_widget_function'
+		) );
+	}
+
 
 	/**
 	 * Add options page
@@ -44,32 +79,32 @@ class Watchtower {
 
 		$this->options = get_option( 'watchtower' );
 		?>
-		<div class="wrap">
-			<style>
-				.watchtower_token_field {
-					background: #ffea96 !important;
-				}
+        <div class="wrap">
+            <style>
+                .watchtower_token_field {
+                    background: #ffea96 !important;
+                }
 
-				.watchtower_token_area, .watchtower_token_field {
-					font-size: 20px;
-					padding: 10px;
-				}
+                .watchtower_token_area, .watchtower_token_field {
+                    font-size: 20px;
+                    padding: 10px;
+                }
 
-				.watchtower_token_area {
-					margin: auto;
-					float: left;
-					padding-left: 0px;
-				}
-			</style>
-			<h2>Watchtower Settings</h2>
-			<form method="post" action="options.php">
+                .watchtower_token_area {
+                    margin: auto;
+                    float: left;
+                    padding-left: 0px;
+                }
+            </style>
+            <h2>Watchtower Settings</h2>
+            <form method="post" action="options.php">
 				<?php
 				settings_fields( 'watchtower' );
 				do_settings_sections( 'watchtower-settings' );
 				submit_button( 'Update settings' );
 				?>
-			</form>
-		</div>
+            </form>
+        </div>
 		<?php
 	}
 

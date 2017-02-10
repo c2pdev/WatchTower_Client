@@ -26,6 +26,11 @@ class Watchtower_API_Endpoint {
 	}
 
 
+	/**
+	 * @param $token
+	 *
+	 * @return bool
+	 */
 	protected static function haveAccess( $token ) {
 		if ( $token == get_option( 'watchtower' )['access_token'] ) {
 			return true;
@@ -34,6 +39,9 @@ class Watchtower_API_Endpoint {
 		}
 	}
 
+	/**
+	 *
+	 */
 	public function sniff_requests() {
 		global $wp;
 		if ( isset( $wp->query_vars['__watchtower-api'] ) ) {
@@ -42,6 +50,9 @@ class Watchtower_API_Endpoint {
 		}
 	}
 
+	/**
+	 *
+	 */
 	protected function handle_request() {
 		global $wp;
 		$query          = $wp->query_vars['query'];
@@ -107,6 +118,9 @@ class Watchtower_API_Endpoint {
 
 	}
 
+	/**
+	 * @param $response
+	 */
 	protected function send_response( $response ) {
 		header( 'content-type: application/json; charset=utf-8' );
 		echo json_encode( $response ) . "\n";

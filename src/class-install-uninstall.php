@@ -8,6 +8,9 @@
 namespace Whatarmy_Watchtower;
 
 class Install_Uninstall {
+	/**
+	 *
+	 */
 	static function install() {
 		$token = Token::generateToken();
 		add_option( 'watchtower', array(
