@@ -21,7 +21,7 @@ class Watchtower {
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'add_plugin_page' ) );
 		add_action( 'admin_init', array( $this, 'page_init' ) );
-		add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widgets' ) );
+		//add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widgets' ) );
 	}
 
 	public function dashboard_widget_function( $post, $callback_args ) {
