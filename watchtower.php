@@ -2,7 +2,7 @@
 /*
 Plugin Name: Whatarmy Watchtower
 Plugin URI: https://github.com/c2pdev/WatchTower_Client
-Description: WP website monitoring API
+Description: The WhatArmy WordPress plugin allows us to monitor, backup, upgrade, and manage your site!
 Author: Whatarmy
 Version: 1.1.59
 Author URI: http://whatarmy.com
