@@ -20,6 +20,7 @@ class Plugin_Model {
 		foreach ( $plugins as $plugin_path => $plugin ) {
 			array_push( $plugins_list, array(
 				'name'      => $plugin['Name'],
+				'slug'      => plugin_basename(plugin_dir_path($plugin_path)),
 				'version'   => $plugin['Version'],
 				'is_active' => self::isActive( $plugin_path ),
 				'updates'   => self::checkUpdates( $plugin_path ),

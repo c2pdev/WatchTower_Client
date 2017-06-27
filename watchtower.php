@@ -1,12 +1,12 @@
 <?php
-/*
+/**
 Plugin Name: Whatarmy Watchtower
 Plugin URI: https://github.com/c2pdev/WatchTower_Client
 Description: The WhatArmy WordPress plugin allows us to monitor, backup, upgrade, and manage your site!
 Author: Whatarmy
-Version: 1.2.0
+Version: 1.2.1
 Author URI: http://whatarmy.com
-*/
+**/
 
 if (version_compare(PHP_VERSION, '5.4', '<')) {
 	wp_die('PHP 5.4 or better is required.');
