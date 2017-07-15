@@ -49,12 +49,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-curl-class/php-curl-class.git",
-                "reference": "6d0fc0453b85d32a6434b58f3120095068feedb9"
+                "reference": "79e57a7341869837a9b89c5b28da115633017d3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-curl-class/php-curl-class/zipball/6d0fc0453b85d32a6434b58f3120095068feedb9",
-                "reference": "6d0fc0453b85d32a6434b58f3120095068feedb9",
+                "url": "https://api.github.com/repos/php-curl-class/php-curl-class/zipball/79e57a7341869837a9b89c5b28da115633017d3a",
+                "reference": "79e57a7341869837a9b89c5b28da115633017d3a",
                 "shasum": ""
             },
             "require": {
@@ -98,7 +98,7 @@
                 "web service",
                 "xml"
             ],
-            "time": "2017-06-28 11:16:28"
+            "time": "2017-07-08 01:26:57"
         }
     ],
     "packages-dev": [],
