@@ -10,9 +10,31 @@ class ComposerStaticInitf52205dab443ac3414c3c6f075ec3fc6
         '35e59de4710b0d6ef1e7e82248a7a88e' => __DIR__ . '/../..' . '/src/autoload.php',
     );
 
+    public static $prefixLengthsPsr4 = array (
+        'C' => 
+        array (
+            'Curl\\' => 5,
+        ),
+    );
+
+    public static $prefixDirsPsr4 = array (
+        'Curl\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-curl-class/php-curl-class/src/Curl',
+        ),
+    );
+
+    public static $classMap = array (
+        'MySQLDump' => __DIR__ . '/..' . '/dg/mysql-dump/src/MySQLDump.php',
+        'MySQLImport' => __DIR__ . '/..' . '/dg/mysql-dump/src/MySQLImport.php',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+            $loader->prefixLengthsPsr4 = ComposerStaticInitf52205dab443ac3414c3c6f075ec3fc6::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitf52205dab443ac3414c3c6f075ec3fc6::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitf52205dab443ac3414c3c6f075ec3fc6::$classMap;
 
         }, null, ClassLoader::class);
     }

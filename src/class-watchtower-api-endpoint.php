@@ -15,6 +15,7 @@ class Watchtower_API_Endpoint {
 		$vars[] = '__watchtower-api';
 		$vars[] = 'query';
 		$vars[] = 'access_token';
+		$vars[] = 'backup_name';
 
 		return $vars;
 	}
@@ -64,20 +65,15 @@ class Watchtower_API_Endpoint {
 				$this->send_response( array(
 					'status' => '200 OK',
 					'data'   => WPCore_Model::sign_in()
-			) );
+				) );
+				break;
+			case( $query === 'download_backup' && $access_token && $wp->query_vars['backup_name'] ):
+				$this->serveBackup( $wp->query_vars['backup_name'] );
 				break;
 			case ( $query === 'test' && $access_token ):
 				$this->send_response( array(
 					'status' => '200 OK',
 				) );
-				break;
-			case ( $query === 'auto_update' && $access_token ):
-				wp_update_plugins();
-				$this->send_response(
-					array(
-						'status'         => '200 OK',
-						'client_version' => $plugin_version,
-					) );
 				break;
 			case ( $query === 'core' && $access_token ):
 				$this->send_response(
@@ -116,6 +112,16 @@ class Watchtower_API_Endpoint {
 				break;
 		}
 
+	}
+
+	/**
+	 * @param $filename
+	 */
+	protected function serveBackup( $filename ) {
+		header( 'Content-type: application/gzip' );
+		header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
+
+		readfile( WHT_BACKUP_DIR . '/' . $filename );
 	}
 
 	/**
