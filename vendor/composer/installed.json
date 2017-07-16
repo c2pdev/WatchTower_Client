@@ -16,7 +16,7 @@
         },
         "time": "2017-05-24T12:44:51+00:00",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "classmap": [
                 "src/"
@@ -63,7 +63,7 @@
         },
         "time": "2017-07-08T01:26:57+00:00",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
                 "Curl\\": "src/Curl/"
