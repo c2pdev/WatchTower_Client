@@ -21,11 +21,12 @@ class Install_Uninstall {
 	}
 
 	/**
-	 * Create DB
+	 * @param $ver
 	 */
-	static function watchtower_create_db() {
+	static function watchtower_create_db( $ver ) {
 		global $wpdb;
-		$version         = get_option( 'watchtower_db_version', '1.0' );
+
+		$version         = get_option( 'watchtower_db_version' );
 		$charset_collate = $wpdb->get_charset_collate();
 		$table_name      = $wpdb->prefix . 'watchtower_logs';
 
@@ -41,7 +42,7 @@ class Install_Uninstall {
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta( $sql );
-
+		update_option( 'watchtower_db_version', $ver );
 //		if ( version_compare( $version, '2.0' ) < 0 ) {
 //			$sql = "CREATE TABLE $table_name (
 //		  id mediumint(9) NOT NULL AUTO_INCREMENT,

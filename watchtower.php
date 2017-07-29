@@ -4,10 +4,11 @@
  * Plugin URI: https://github.com/c2pdev/WatchTower_Client
  * Description: The WhatArmy WordPress plugin allows us to monitor, backup, upgrade, and manage your site!
  * Author: Whatarmy
- * Version: 1.3.3
+ * Version: 1.3.4
  * Author URI: http://whatarmy.com
  **/
-
+global $watchtower_db_version;
+$watchtower_db_version = '1.0';
 if ( version_compare( PHP_VERSION, '5.4', '<' ) ) {
 	wp_die( 'PHP 5.4 or better is required.' );
 }
@@ -51,6 +52,15 @@ if ( ! function_exists( 'get_plugins' ) ) {
  */
 register_activation_hook( __FILE__, array( '\Whatarmy_Watchtower\Install_Uninstall', 'install' ) );
 register_activation_hook( __FILE__, array( '\Whatarmy_Watchtower\Install_Uninstall', 'watchtower_create_db' ) );
+
+function WHT_update_db_check() {
+	global $watchtower_db_version;
+	if ( get_site_option( 'watchtower_db_version' ) != $watchtower_db_version ) {
+		\Whatarmy_Watchtower\Install_Uninstall::watchtower_create_db( $watchtower_db_version );
+	}
+}
+
+add_action( 'plugins_loaded', 'WHT_update_db_check' );
 
 /**
  * RUN API ENDPOINT
