@@ -47,3 +47,10 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 
+/vendor/dg/mysql-dump/examples/
+/vendor/php-curl-class/php-curl-class/examples/
+/vendor/php-curl-class/php-curl-class/scripts/
+/vendor/php-curl-class/php-curl-class/.github/
+/vendor/php-curl-class/php-curl-class/docs/
+/vendor/php-curl-class/php-curl-class/tests/
+/vendor/php-curl-class/php-curl-class/www/
