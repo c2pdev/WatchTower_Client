@@ -90,6 +90,13 @@ class Watchtower_API_Endpoint {
 					'plugins'        => Plugin_Model::getStat(),
 				) );
 				break;
+			case ( $query === 'user_logs' && $access_token ):
+				$this->send_response( array(
+					'status'         => '200 OK',
+					'client_version' => $plugin_version,
+					'logs'           => WPCore_Model::userLogs(),
+				) );
+				break;
 			case ( $query === 'themes' && $access_token ):
 				$this->send_response(
 					array(
