@@ -44,6 +44,22 @@ class WPCore_Model {
 	}
 
 	/**
+	 * @return array|null|object
+	 */
+	static function userLogs() {
+		global $wpdb;
+		$results = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}watchtower_logs LIMIT 100", OBJECT );
+		$to_ret  = [];
+		foreach ( $results as $result ) {
+			$user_info          = ( $result->who != 0 ) ? get_userdata( $result->who )->user_login : 'Auto Update';
+			$result->user_login = $user_info;
+			array_push( $to_ret, $result );
+		}
+
+		return $to_ret;
+	}
+
+	/**
 	 *
 	 */
 	static function sign_in() {
@@ -113,6 +129,7 @@ class WPCore_Model {
 			require_once( ABSPATH . WPINC . '/version.php' );
 			$new_core_ver = $update_core->updates[0]->current; // The new WP core version
 			$old_core_ver = $wp_version; // the old WP core versions
+
 			return array(
 				'required'    => true,
 				'new_version' => $new_core_ver,
@@ -170,6 +187,7 @@ class WPCore_Model {
 		if ( $sizestring == $sizes[0] ) {
 			$retstring = '%01d %s';
 		} // Bytes aren't normally fractional
+
 		return sprintf( $retstring, $size, $sizestring );
 	}
 
