@@ -21,7 +21,7 @@ class Install_Uninstall {
 	}
 
 	/**
-	 * @param $ver
+	 * @param $ver 
 	 */
 	static function watchtower_create_db( $ver ) {
 		global $wpdb;
