@@ -12,7 +12,7 @@
   "require": {
     "php": ">=5.4",
     "dg/mysql-dump": "dev-master",
-    "php-curl-class/php-curl-class": "dev-master"
+    "shuber/curl": "dev-master"
   },
   "require-dev": {
 

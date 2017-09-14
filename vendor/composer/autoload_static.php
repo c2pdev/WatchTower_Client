@@ -7,21 +7,8 @@ namespace Composer\Autoload;
 class ComposerStaticInit81d36764bc127327e2e1afcb1dd2c2c6
 {
     public static $files = array (
+        'ef6802c8a38664a4b1e8712ed25377fb' => __DIR__ . '/..' . '/shuber/curl/curl.php',
         '35e59de4710b0d6ef1e7e82248a7a88e' => __DIR__ . '/../..' . '/src/autoload.php',
-    );
-
-    public static $prefixLengthsPsr4 = array (
-        'C' => 
-        array (
-            'Curl\\' => 5,
-        ),
-    );
-
-    public static $prefixDirsPsr4 = array (
-        'Curl\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/php-curl-class/php-curl-class/src/Curl',
-        ),
     );
 
     public static $classMap = array (
@@ -32,8 +19,6 @@ class ComposerStaticInit81d36764bc127327e2e1afcb1dd2c2c6
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit81d36764bc127327e2e1afcb1dd2c2c6::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit81d36764bc127327e2e1afcb1dd2c2c6::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInit81d36764bc127327e2e1afcb1dd2c2c6::$classMap;
 
         }, null, ClassLoader::class);

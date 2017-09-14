@@ -4,7 +4,7 @@
  * Plugin URI: https://github.com/c2pdev/WatchTower_Client
  * Description: The WhatArmy WordPress plugin allows us to monitor, backup, upgrade, and manage your site!
  * Author: Whatarmy
- * Version: 1.3.5
+ * Version: 1.4.1
  * Author URI: http://whatarmy.com
  **/
 
@@ -189,9 +189,9 @@ function WHTclearOldBackups() {
 
 function callWHTHeadquarter( $backup_name ) {
 
-	$curl = new \Curl\Curl();
-	$curl->setOpt( CURLOPT_SSL_VERIFYPEER, false );
-	$curl->setOpt( CURLOPT_SSL_VERIFYHOST, false );
+	$curl                                    = new Curl();
+	$curl->options['CURLOPT_SSL_VERIFYPEER'] = false;
+	$curl->options['CURLOPT_SSL_VERIFYHOST'] = false;
 	$curl->get( WHT_HEADQUARTER_BACKUP_ENDPOINT, array(
 		'access_token' => get_option( 'watchtower' )['access_token'],
 		'backup_name'  => $backup_name

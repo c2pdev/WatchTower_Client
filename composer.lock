@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d9dfe9ba484c265c152b9f1391641f9b",
+    "content-hash": "189586a2f34292a2ca93f3fc7f4ba193",
     "packages": [
         {
             "name": "dg/mysql-dump",
@@ -41,64 +41,40 @@
             "keywords": [
                 "mysql"
             ],
-            "time": "2017-05-24 12:44:51"
+            "time": "2017-05-24T12:44:51+00:00"
         },
         {
-            "name": "php-curl-class/php-curl-class",
+            "name": "shuber/curl",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/php-curl-class/php-curl-class.git",
-                "reference": "79e57a7341869837a9b89c5b28da115633017d3a"
+                "url": "https://github.com/hamstar/curl.git",
+                "reference": "6624992df201f9fd7262080117385dd09b0ecd2b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-curl-class/php-curl-class/zipball/79e57a7341869837a9b89c5b28da115633017d3a",
-                "reference": "79e57a7341869837a9b89c5b28da115633017d3a",
+                "url": "https://api.github.com/repos/hamstar/curl/zipball/6624992df201f9fd7262080117385dd09b0ecd2b",
+                "reference": "6624992df201f9fd7262080117385dd09b0ecd2b",
                 "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "php": ">=5.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "*",
-                "squizlabs/php_codesniffer": "*"
             },
             "type": "library",
             "autoload": {
-                "psr-4": {
-                    "Curl\\": "src/Curl/"
-                }
+                "files": [
+                    "curl.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "Unlicense"
+                "MIT"
             ],
-            "authors": [
-                {
-                    "name": "Zach Borboa"
-                }
-            ],
-            "description": "PHP Curl Class makes it easy to send HTTP requests and integrate with web APIs.",
-            "homepage": "https://github.com/php-curl-class/php-curl-class",
+            "description": "PHP Wrapper for Curl",
             "keywords": [
-                "api",
-                "class",
-                "client",
+                "bot",
                 "curl",
-                "framework",
-                "http",
-                "http client",
-                "json",
-                "php",
-                "requests",
-                "rest",
-                "restful",
-                "web service",
-                "xml"
+                "scraper",
+                "spider"
             ],
-            "time": "2017-07-08 01:26:57"
+            "time": "2013-11-23T01:44:31+00:00"
         }
     ],
     "packages-dev": [],
@@ -106,7 +82,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "dg/mysql-dump": 20,
-        "php-curl-class/php-curl-class": 20
+        "shuber/curl": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

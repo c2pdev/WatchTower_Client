@@ -39,62 +39,38 @@
         ]
     },
     {
-        "name": "php-curl-class/php-curl-class",
+        "name": "shuber/curl",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
-            "url": "https://github.com/php-curl-class/php-curl-class.git",
-            "reference": "79e57a7341869837a9b89c5b28da115633017d3a"
+            "url": "https://github.com/hamstar/curl.git",
+            "reference": "6624992df201f9fd7262080117385dd09b0ecd2b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/php-curl-class/php-curl-class/zipball/79e57a7341869837a9b89c5b28da115633017d3a",
-            "reference": "79e57a7341869837a9b89c5b28da115633017d3a",
+            "url": "https://api.github.com/repos/hamstar/curl/zipball/6624992df201f9fd7262080117385dd09b0ecd2b",
+            "reference": "6624992df201f9fd7262080117385dd09b0ecd2b",
             "shasum": ""
         },
-        "require": {
-            "ext-curl": "*",
-            "php": ">=5.3"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "*",
-            "squizlabs/php_codesniffer": "*"
-        },
-        "time": "2017-07-08T01:26:57+00:00",
+        "time": "2013-11-23T01:44:31+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
-            "psr-4": {
-                "Curl\\": "src/Curl/"
-            }
+            "files": [
+                "curl.php"
+            ]
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
-            "Unlicense"
+            "MIT"
         ],
-        "authors": [
-            {
-                "name": "Zach Borboa"
-            }
-        ],
-        "description": "PHP Curl Class makes it easy to send HTTP requests and integrate with web APIs.",
-        "homepage": "https://github.com/php-curl-class/php-curl-class",
+        "description": "PHP Wrapper for Curl",
         "keywords": [
-            "api",
-            "class",
-            "client",
+            "bot",
             "curl",
-            "framework",
-            "http",
-            "http client",
-            "json",
-            "php",
-            "requests",
-            "rest",
-            "restful",
-            "web service",
-            "xml"
+            "scraper",
+            "spider"
         ]
     }
 ]
