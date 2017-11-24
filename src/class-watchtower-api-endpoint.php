@@ -61,10 +61,16 @@ class Watchtower_API_Endpoint {
 		$plugin_data    = get_plugin_data( plugin_dir_path( __FILE__ ) . '../watchtower.php' );
 		$plugin_version = $plugin_data['Version'];
 		switch ( true ) {
-			case ( $query === 'login' && $access_token ):
+			case( $query === 'generate_ota_token' && $access_token ):
 				$this->send_response( array(
 					'status' => '200 OK',
-					'data'   => WPCore_Model::sign_in()
+					'data'   => WPCore_Model::generate_ota_token()
+				) );
+				break;
+			case ( $query === 'login' && $wp->query_vars['access_token'] ):
+				$this->send_response( array(
+					'status' => '200 OK',
+					'data'   => WPCore_Model::sign_in( $wp->query_vars['access_token'] )
 				) );
 				break;
 			case( $query === 'download_backup' && $access_token && $wp->query_vars['backup_name'] ):
