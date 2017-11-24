@@ -4,7 +4,7 @@
  * Plugin URI: https://github.com/c2pdev/WatchTower_Client
  * Description: The WhatArmy WordPress plugin allows us to monitor, backup, upgrade, and manage your site!
  * Author: Whatarmy
- * Version: 1.4.2
+ * Version: 1.4.3
  * Author URI: http://whatarmy.com
  **/
 
@@ -29,7 +29,7 @@ define( 'WHT_HEADQUARTER_BACKUP_ENDPOINT', 'https://watchtower.whatarmy.com/back
  * UPDATE Plugin
  */
 require 'plugin-update-checker/plugin-update-checker.php';
-$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+$myUpdateChecker = Puc_v4p3_Factory::buildUpdateChecker(
 	'https://github.com/c2pdev/WatchTower_Client',
 	__FILE__,
 	'whatarmy-watchtower-plugin'
