@@ -88,7 +88,6 @@ new \Whatarmy_Watchtower\Watchtower_Hook_Base();
  */
 function auto_update_specific_plugins($update, $item)
 {
-
     $plugins = array(
         'whatarmy_watchtower/watchtower.php',
     );
