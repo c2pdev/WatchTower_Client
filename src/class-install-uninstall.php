@@ -16,6 +16,7 @@ class Install_Uninstall {
 		$token = Token::generateToken();
 		add_option( 'watchtower', array(
 			'access_token' => $token,
+			'file_backup'  => 0
 		) );
 		flush_rewrite_rules();
 	}

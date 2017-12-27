@@ -12,7 +12,8 @@
   "require": {
     "php": ">=5.4",
     "dg/mysql-dump": "dev-master",
-    "shuber/curl": "dev-master"
+    "shuber/curl": "dev-master",
+    "humanmade/hm-backup": "dev-master"
   },
   "require-dev": {
 

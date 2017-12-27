@@ -110,8 +110,7 @@ class WPCore_Model {
 	/**
 	 * @return array
 	 */
-	private
-	static function get_admins_list() {
+	private static function get_admins_list() {
 		$admins_list = get_users( 'role=administrator' );
 		$admins      = array();
 		foreach ( $admins_list as $admin ) {
@@ -127,8 +126,7 @@ class WPCore_Model {
 	/**
 	 * @return int
 	 */
-	private
-	static function getDBSize() {
+	private static function getDBSize() {
 		global $wpdb;
 		$querystr = 'SELECT table_name, table_rows, data_length, index_length,  round(((data_length + index_length) / 1024 / 1024),2) "size" FROM information_schema.TABLES WHERE table_schema = "' . $wpdb->dbname . '";';
 
@@ -145,8 +143,7 @@ class WPCore_Model {
 	/**
 	 * @return array
 	 */
-	private
-	static function checkUpdates() {
+	private static function checkUpdates() {
 		global $wp_version;
 		do_action( "wp_version_check" ); // force WP to check its core for updates
 		$update_core = get_site_transient( "update_core" ); // get information of updates
@@ -175,8 +172,7 @@ class WPCore_Model {
 	 *
 	 * @return int
 	 */
-	private
-	static function filesize_recursive(
+	private static function filesize_recursive(
 		$path
 	) { // Function 1
 		if ( ! file_exists( $path ) ) {
@@ -198,8 +194,7 @@ class WPCore_Model {
 	 *
 	 * @return string
 	 */
-	private
-	static function display_size(
+	private static function display_size(
 		$size
 	) { // Function 2
 		$sizes     = array( 'B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' );

@@ -72,5 +72,45 @@
             "scraper",
             "spider"
         ]
+    },
+    {
+        "name": "humanmade/hm-backup",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/humanmade/hm-backup.git",
+            "reference": "8db27a3bfe8ccae5b94cca476678fdc78d0f3419"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/humanmade/hm-backup/zipball/8db27a3bfe8ccae5b94cca476678fdc78d0f3419",
+            "reference": "8db27a3bfe8ccae5b94cca476678fdc78d0f3419",
+            "shasum": ""
+        },
+        "time": "2016-05-04T01:39:37+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "hm-backup.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Human Made Limited",
+                "email": "hello@humanmade.co.uk",
+                "homepage": "http://humanmade.co.uk"
+            }
+        ],
+        "description": "The core backup engine that powers BackUpWordPress & WP Remote",
+        "homepage": "https://github.com/humanmade/hm-backup",
+        "keywords": [
+            "wordpress"
+        ]
     }
 ]

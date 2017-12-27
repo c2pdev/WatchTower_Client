@@ -12,6 +12,7 @@ class ComposerStaticInit81d36764bc127327e2e1afcb1dd2c2c6
     );
 
     public static $classMap = array (
+        'HM_Backup' => __DIR__ . '/..' . '/humanmade/hm-backup/hm-backup.php',
         'MySQLDump' => __DIR__ . '/..' . '/dg/mysql-dump/src/MySQLDump.php',
         'MySQLImport' => __DIR__ . '/..' . '/dg/mysql-dump/src/MySQLImport.php',
     );

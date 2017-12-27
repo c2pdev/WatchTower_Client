@@ -30,7 +30,7 @@ class Watchtower {
 		$maxitems = 0;
 
 		if ( ! is_wp_error( $rss ) ) :
-			$maxitems = $rss->get_item_quantity( 8 );
+			$maxitems  = $rss->get_item_quantity( 8 );
 			$rss_items = $rss->get_items( 0, $maxitems );
 
 		endif;
@@ -125,9 +125,25 @@ class Watchtower {
 			'watchtower-settings'
 		);
 
+		add_settings_section(
+			'backups_section',
+			'Backups',
+			array( $this, 'backups_info' ),
+			'watchtower-settings'
+		);
+
+		add_settings_field(
+			'file_backup',
+			'Enable/Disable File Backups',
+			array( $this, 'backups_callback' ),
+			'watchtower-settings',
+			'backups_section',
+			array()
+		);
+
 		add_settings_field(
 			'access_token',
-			null,
+			'Refresh Token',
 			array( $this, 'access_token_callback' ),
 			'watchtower-settings',
 			'access_token_section',
@@ -142,8 +158,14 @@ class Watchtower {
 	 */
 	public function sanitize( $input ) {
 		$new_input = array();
-		if ( isset( $input['access_token'] ) ) {
-			$new_input['access_token'] = $input['access_token'];
+		if ( isset( $input['file_backup'] ) ) {
+			$new_input['file_backup'] = $input['file_backup'];
+		}
+
+		if ( isset( $input['access_token'] ) && $input['access_token'] == 'true' ) {
+			$new_input['access_token'] = Token::generateToken();
+		} else {
+			$new_input['access_token'] = get_option( 'watchtower' )['access_token'];
 		}
 
 		return $new_input;
@@ -156,13 +178,30 @@ class Watchtower {
 		print '<span class="watchtower_token_area">CurrentToken: <span class="watchtower_token_field">' . get_option( 'watchtower' )['access_token'] . '</span></span>';
 	}
 
+	public function backups_info() {
+		$state = ( get_option( 'watchtower' )['file_backup'] == 1 ) ? "Enabled" : "Disabled";
+		print '<span class="watchtower_token_area">File Backup: <span class="">' . $state . '</span></span>';
+	}
+
 	/**
 	 *
 	 */
 	public function access_token_callback() {
 		printf(
-			'<input type="hidden" id="access_token" name="watchtower[access_token]" value="' . Token::generateToken() . '" />',
+			'<input type="checkbox" value="true" name="watchtower[access_token]" />',
 			isset( $this->options['access_token'] ) ? esc_attr( $this->options['access_token'] ) : ''
+		);
+	}
+
+	public function backups_callback() {
+		$one = ( get_option( 'watchtower' )['file_backup'] == 1 ) ? "selected" : "";
+		$two = ( get_option( 'watchtower' )['file_backup'] == 0 ) ? "selected" : "";
+		printf(
+			'<select name="watchtower[file_backup]">
+<option value="1" ' . $one . '>Enabled</option>
+<option value="0" ' . $two . '>Disabled</option>
+</select>',
+			isset( $this->options['file_backup'] ) ? esc_attr( $this->options['file_backup'] ) : ''
 		);
 	}
 }

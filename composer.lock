@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "189586a2f34292a2ca93f3fc7f4ba193",
+    "content-hash": "7be3b324c69f92679638516d2c8ae66a",
     "packages": [
         {
             "name": "dg/mysql-dump",
@@ -42,6 +42,44 @@
                 "mysql"
             ],
             "time": "2017-05-24T12:44:51+00:00"
+        },
+        {
+            "name": "humanmade/hm-backup",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/humanmade/hm-backup.git",
+                "reference": "8db27a3bfe8ccae5b94cca476678fdc78d0f3419"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/humanmade/hm-backup/zipball/8db27a3bfe8ccae5b94cca476678fdc78d0f3419",
+                "reference": "8db27a3bfe8ccae5b94cca476678fdc78d0f3419",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "hm-backup.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Human Made Limited",
+                    "email": "hello@humanmade.co.uk",
+                    "homepage": "http://humanmade.co.uk"
+                }
+            ],
+            "description": "The core backup engine that powers BackUpWordPress & WP Remote",
+            "homepage": "https://github.com/humanmade/hm-backup",
+            "keywords": [
+                "wordpress"
+            ],
+            "time": "2016-05-04T01:39:37+00:00"
         },
         {
             "name": "shuber/curl",
@@ -82,7 +120,8 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "dg/mysql-dump": 20,
-        "shuber/curl": 20
+        "shuber/curl": 20,
+        "humanmade/hm-backup": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
