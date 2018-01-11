@@ -179,8 +179,8 @@ class Watchtower_API_Endpoint
     {
 
         $file= WHT_BACKUP_DIR . '/' . $filename;
-
-        self::sendHeaders($file, 'application/gzip', $filename);
+        $mime = mime_content_type($file);
+        self::sendHeaders($file, $mime, $filename);
         $chunkSize = 1024 * 1024;
         $handle = fopen($file, 'rb');
         while (!feof($handle))
