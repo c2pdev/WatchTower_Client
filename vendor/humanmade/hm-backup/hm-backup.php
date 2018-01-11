@@ -1255,7 +1255,7 @@ class HM_Backup {
 			}
 
 			// Add and end carrot to files for pclzip but only if it doesn't end in a wildcard
-			if ( $file && $context === 'regex' ) {
+			if ( $file && $context === 'regex' && WPE_ISP != true) {
 				$rule .= '$';
 			}
 
