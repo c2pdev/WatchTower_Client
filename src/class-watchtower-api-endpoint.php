@@ -157,15 +157,40 @@ class Watchtower_API_Endpoint
         exit;
     }
 
+    protected function sendHeaders($file, $type, $name=NULL)
+    {
+        if (empty($name))
+        {
+            $name = basename($file);
+        }
+        header('Pragma: public');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Cache-Control: private', false);
+        header('Content-Transfer-Encoding: binary');
+        header('Content-Disposition: attachment; filename="'.$name.'";');
+        header('Content-Type: ' . $type);
+        header('Content-Length: ' . filesize($file));
+    }
     /**
      * @param $filename
      */
     protected function serveBackup($filename)
     {
-        header('Content-type: application/gzip');
-        header('Content-Disposition: attachment; filename="' . $filename . '"');
 
-        readfile(WHT_BACKUP_DIR . '/' . $filename);
+        $file= WHT_BACKUP_DIR . '/' . $filename;
+
+        self::sendHeaders($file, 'application/gzip', $filename);
+        $chunkSize = 1024 * 1024;
+        $handle = fopen($file, 'rb');
+        while (!feof($handle))
+        {
+            $buffer = fread($handle, $chunkSize);
+            echo $buffer;
+            ob_flush();
+            flush();
+        }
+        fclose($handle);
+        exit;
     }
-
 }
