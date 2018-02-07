@@ -172,21 +172,16 @@ class WPCore_Model {
 	 *
 	 * @return int
 	 */
-	private static function filesize_recursive(
-		$path
-	) { // Function 1
-		if ( ! file_exists( $path ) ) {
-			return 0;
-		}
-		if ( is_file( $path ) ) {
-			return filesize( $path );
-		}
-		$ret = 0;
-		foreach ( glob( $path . "/*" ) as $fn ) {
-			$ret += self::filesize_recursive( $fn );
-		}
-
-		return $ret;
+    private static function filesize_recursive($path)
+    { // Function 1
+        $bytestotal = 0;
+        $path = realpath($path);
+        if ($path !== false && $path != '' && file_exists($path)) {
+            foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS)) as $object) {
+                $bytestotal += $object->getSize();
+            }
+        }
+        return $bytestotal;
 	}
 
 	/**
@@ -194,9 +189,8 @@ class WPCore_Model {
 	 *
 	 * @return string
 	 */
-	private static function display_size(
-		$size
-	) { // Function 2
+    private static function display_size($size)
+    { // Function 2
 		$sizes     = array( 'B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' );
 		$retstring = '%01.2f %s';
 		if ( $retstring === null ) {
