@@ -65,9 +65,9 @@ class MySQLDump
 	 * @param  resource
 	 * @return void
 	 */
-	public function write($handle = NULL)
+	public function write($handle = null)
 	{
-		if ($handle === NULL) {
+		if ($handle === null) {
 			$handle = fopen('php://output', 'wb');
 		} elseif (!is_resource($handle) || get_resource_type($handle) !== 'stream') {
 			throw new Exception('Argument must be stream resource.');
@@ -153,7 +153,7 @@ class MySQLDump
 			while ($row = $res->fetch_assoc()) {
 				$s = '(';
 				foreach ($row as $key => $value) {
-					if ($value === NULL) {
+					if ($value === null) {
 						$s .= "NULL,\t";
 					} elseif ($numeric[$key]) {
 						$s .= $value . ",\t";

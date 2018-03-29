@@ -80,7 +80,7 @@ class MySQLImport
 				$sql = '';
 				$count++;
 				if ($this->onProgress) {
-					call_user_func($this->onProgress, $count, isset($stat['size']) ? $size * 100 / $stat['size'] : NULL);
+					call_user_func($this->onProgress, $count, isset($stat['size']) ? $size * 100 / $stat['size'] : null);
 				}
 
 			} else {
@@ -94,7 +94,7 @@ class MySQLImport
 				throw new Exception($this->connection->error);
 			}
 			if ($this->onProgress) {
-				call_user_func($this->onProgress, $count, isset($stat['size']) ? 100 : NULL);
+				call_user_func($this->onProgress, $count, isset($stat['size']) ? 100 : null);
 			}
 		}
 
