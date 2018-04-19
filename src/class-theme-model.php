@@ -15,6 +15,7 @@ class Theme_Model {
 	 * @return mixed
 	 */
 	static function getStat() {
+		do_action( "wp_update_themes" );
 		$themes      = wp_get_themes();
 		$themes_list = array();
 		foreach ( $themes as $theme_shortname => $theme ) {
@@ -35,7 +36,7 @@ class Theme_Model {
 	 * @return array
 	 */
 	private static function checkUpdates( $theme, $current ) {
-		$list = get_option( '_site_transient_update_themes' );
+		$list = get_site_transient( 'update_themes' );
 
 		if ( is_array( $list->response ) ) {
 			if ( array_key_exists( $theme, $list->response ) ) {
