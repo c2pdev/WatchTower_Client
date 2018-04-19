@@ -90,10 +90,10 @@ class MySQLDump
 		$this->connection->query('LOCK TABLES `' . implode('` READ, `', $tables) . '` READ');
 
 		$db = $this->connection->query('SELECT DATABASE()')->fetch_row();
-		fwrite($handle, "-- Created at " . date('j.n.Y G:i') . " using David Grudl MySQL Dump Utility\n"
+		fwrite($handle, '-- Created at ' . date('j.n.Y G:i') . " using David Grudl MySQL Dump Utility\n"
 			. (isset($_SERVER['HTTP_HOST']) ? "-- Host: $_SERVER[HTTP_HOST]\n" : '')
-			. "-- MySQL Server: " . $this->connection->server_info . "\n"
-			. "-- Database: " . $db[0] . "\n"
+			. '-- MySQL Server: ' . $this->connection->server_info . "\n"
+			. '-- Database: ' . $db[0] . "\n"
 			. "\n"
 			. "SET NAMES utf8;\n"
 			. "SET SQL_MODE='NO_AUTO_VALUE_ON_ZERO';\n"
@@ -206,5 +206,4 @@ class MySQLDump
 	{
 		return '`' . str_replace('`', '``', $s) . '`';
 	}
-
 }

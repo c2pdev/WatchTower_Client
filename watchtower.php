@@ -4,10 +4,10 @@
  * Plugin URI: https://github.com/c2pdev/WatchTower_Client
  * Description: The WhatArmy WordPress plugin allows us to monitor, backup, upgrade, and manage your site!
  * Author: Whatarmy
- * Version: 1.5.5
+ * Version: 1.5.8
  * Author URI: http://whatarmy.com
  **/
-define('MP_LARGE_DOWNLOADS',true);
+define( 'MP_LARGE_DOWNLOADS', true );
 require_once 'libraries/action-schedule/action-scheduler.php';
 
 define( 'WATCHTOWER_DB_VERSION', '1.0' );
@@ -22,6 +22,7 @@ define( 'DISALLOW_FILE_EDIT', true );
 
 define( 'WHT_BACKUP_DIR', wp_upload_dir()['basedir'] . '/watchtower_backups' );
 define( 'WHT_HEADQUARTER_BACKUP_ENDPOINT', 'https://watchtower.whatarmy.com/backup' );
+define( 'WHT_HEADQUARTER_BACKUP_ERROR_ENDPOINT', 'https://watchtower.whatarmy.com/backup_error' );
 define( 'WHT_HEADQUARTER_BACKUP_EX', 'https://watchtower.whatarmy.com/backupExclusions' );
 
 define( "WHT_CHUNK_SIZE", 1024 * 8 );
@@ -148,18 +149,24 @@ function WHTAddToZip( $files ) {
 	if ( defined( 'WPE_ISP' ) ) {
 		ini_set( 'memory_limit', '512M' );
 	}
+	$archive_location = WHT_BACKUP_DIR . '/' . $files['zip'] . '.zip';
+	$zippy            = new ZipArchive();
+	$zippy->open( $archive_location, ZipArchive::CREATE );
 
-	$zippy = \Alchemy\Zippy\Adapter\ZipExtensionAdapter::newInstance();
-	$to    = [];
 	foreach ( $files['f'] as $file ) {
-		array_push( $to, ABSPATH . $file );
+		$zippy->addFile( ABSPATH . $file, $file );
 	}
-	$zippy->create( WHT_BACKUP_DIR . '/' . $files['zip'] . '.zip', $to, false );
-	if ( $files['last'] == true ) {
-		if ( WHTfailedStatus() == 0 ) {
-			callWHTHeadquarter( $files['zip'] );
-		}
+	$zippy->close();
 
+	$failed  = WHTQueueStatus( 'failed' );
+	$pending = WHTQueueStatus( 'pending' );
+	if ( $failed == 0 && $pending == 0 ) {
+		WHTCleanQueue();
+		callWHTHeadquarter( $files['zip'] );
+	}
+
+	if ( $failed != 0 && $pending == 0 ) {
+		callWHTHeadquarterBackupError();
 	}
 
 }
@@ -167,11 +174,20 @@ function WHTAddToZip( $files ) {
 /**
  *
  */
-function WHTfailedStatus() {
+function WHTCleanQueue() {
 	global $wpdb;
-	$results = $wpdb->get_results( "SELECT id FROM {$wpdb->prefix}posts WHERE post_type = 'scheduled-action' AND post_status = 'failed'", OBJECT );
 	$wpdb->delete( $wpdb->prefix . 'posts', array( 'post_type' => 'scheduled-action' ) );
 	$wpdb->delete( $wpdb->prefix . 'postmeta', array( 'meta_key' => '_action_manager_schedule' ) );
+}
+
+/**
+ * @param $status
+ *
+ * @return int
+ */
+function WHTQueueStatus( $status ) {
+	global $wpdb;
+	$results = $wpdb->get_results( "SELECT id FROM {$wpdb->prefix}posts WHERE post_type = 'scheduled-action' AND post_status = '" . $status . "'", OBJECT );
 
 	return count( $results );
 }
@@ -197,7 +213,7 @@ function WhtRunDbBackup() {
 		$arr  = [];
 		while ( ! $file->eof() ) {
 			$f = str_replace( ABSPATH, "", $file->fgets() );
-			if ( $f != '' && mb_detect_encoding( trim( $f ), 'ASCII', true ) != false ) {
+			if ( $f != '' ) {
 				array_push( $arr, trim( $f ) );
 				$ct ++;
 			}
@@ -336,6 +352,7 @@ function WHTdelDir( $files ) {
  *
  */
 function WHTclearOldBackups() {
+	WHTCleanQueue();
 	$files      = glob( WHT_BACKUP_DIR . '/*' ); // get all file names
 	$exceptions = [ ".htaccess", "index.html", "web.config" ];
 	foreach ( $files as $file ) { // iterate files
@@ -356,6 +373,16 @@ function callWHTHeadquarter( $backup_name ) {
 	$curl->get( WHT_HEADQUARTER_BACKUP_ENDPOINT, array(
 		'access_token' => get_option( 'watchtower' )['access_token'],
 		'backup_name'  => $backup_name
+	) );
+}
+
+function callWHTHeadquarterBackupError() {
+	//clean done queue
+	$curl                                    = new Curl();
+	$curl->options['CURLOPT_SSL_VERIFYPEER'] = false;
+	$curl->options['CURLOPT_SSL_VERIFYHOST'] = false;
+	$curl->get( WHT_HEADQUARTER_BACKUP_ENDPOINT, array(
+		'access_token' => get_option( 'watchtower' )['access_token'],
 	) );
 }
 

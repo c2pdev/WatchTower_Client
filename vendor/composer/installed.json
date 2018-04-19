@@ -70,15 +70,15 @@
         "source": {
             "type": "git",
             "url": "https://github.com/dg/MySQL-dump.git",
-            "reference": "57a6040e493d5dbc74cb709df19280ed1f3615e2"
+            "reference": "d54958efa8726c5a29e16e4928e368236ba375a1"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/dg/MySQL-dump/zipball/57a6040e493d5dbc74cb709df19280ed1f3615e2",
-            "reference": "57a6040e493d5dbc74cb709df19280ed1f3615e2",
+            "url": "https://api.github.com/repos/dg/MySQL-dump/zipball/d54958efa8726c5a29e16e4928e368236ba375a1",
+            "reference": "d54958efa8726c5a29e16e4928e368236ba375a1",
             "shasum": ""
         },
-        "time": "2018-03-26T12:21:11+00:00",
+        "time": "2018-03-29T16:47:12+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

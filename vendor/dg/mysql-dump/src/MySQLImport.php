@@ -100,5 +100,4 @@ class MySQLImport
 
 		return $count;
 	}
-
 }
