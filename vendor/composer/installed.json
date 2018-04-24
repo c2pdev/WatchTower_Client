@@ -264,18 +264,18 @@
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/process.git",
-            "reference": "6745cdc6d77139ce3a6c177e9a34ebb630de310f"
+            "reference": "4b7d64e852886319e93ddfdecff0d744ab87658b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/process/zipball/6745cdc6d77139ce3a6c177e9a34ebb630de310f",
-            "reference": "6745cdc6d77139ce3a6c177e9a34ebb630de310f",
+            "url": "https://api.github.com/repos/symfony/process/zipball/4b7d64e852886319e93ddfdecff0d744ab87658b",
+            "reference": "4b7d64e852886319e93ddfdecff0d744ab87658b",
             "shasum": ""
         },
         "require": {
             "php": "^5.5.9|>=7.0.8"
         },
-        "time": "2018-03-19T22:32:39+00:00",
+        "time": "2018-04-03T05:22:50+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
