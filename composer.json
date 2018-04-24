@@ -13,7 +13,7 @@
     "php": ">=5.4",
     "dg/mysql-dump": "dev-master",
     "shuber/curl": "dev-master",
-    "humanmade/hm-backup": "dev-master"
+    "alchemy/zippy": "^0.3"
   },
   "require-dev": {
 

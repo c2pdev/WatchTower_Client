@@ -11,8 +11,44 @@ class ComposerStaticInit81d36764bc127327e2e1afcb1dd2c2c6
         '35e59de4710b0d6ef1e7e82248a7a88e' => __DIR__ . '/../..' . '/src/autoload.php',
     );
 
+    public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'Symfony\\Component\\Process\\' => 26,
+            'Symfony\\Component\\Filesystem\\' => 29,
+        ),
+        'A' => 
+        array (
+            'Alchemy\\Zippy\\' => 14,
+        ),
+    );
+
+    public static $prefixDirsPsr4 = array (
+        'Symfony\\Component\\Process\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/process',
+        ),
+        'Symfony\\Component\\Filesystem\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/filesystem',
+        ),
+        'Alchemy\\Zippy\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/alchemy/zippy/src',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'D' => 
+        array (
+            'Doctrine\\Common\\Collections\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/collections/lib',
+            ),
+        ),
+    );
+
     public static $classMap = array (
-        'HM_Backup' => __DIR__ . '/..' . '/humanmade/hm-backup/hm-backup.php',
         'MySQLDump' => __DIR__ . '/..' . '/dg/mysql-dump/src/MySQLDump.php',
         'MySQLImport' => __DIR__ . '/..' . '/dg/mysql-dump/src/MySQLImport.php',
     );
@@ -20,6 +56,9 @@ class ComposerStaticInit81d36764bc127327e2e1afcb1dd2c2c6
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+            $loader->prefixLengthsPsr4 = ComposerStaticInit81d36764bc127327e2e1afcb1dd2c2c6::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit81d36764bc127327e2e1afcb1dd2c2c6::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit81d36764bc127327e2e1afcb1dd2c2c6::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit81d36764bc127327e2e1afcb1dd2c2c6::$classMap;
 
         }, null, ClassLoader::class);
