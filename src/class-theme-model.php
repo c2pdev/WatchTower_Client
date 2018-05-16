@@ -15,6 +15,7 @@ class Theme_Model {
 	 * @return mixed
 	 */
 	static function getStat() {
+		do_action( "wp_update_themes" );
 		$themes      = wp_get_themes();
 		$themes_list = array();
 		foreach ( $themes as $theme_shortname => $theme ) {
@@ -22,7 +23,7 @@ class Theme_Model {
 				'name'    => $theme['Name'],
 				'version' => $theme['Version'],
 				'theme'   => $theme_shortname,
-				'updates' => self::checkUpdates( $theme_shortname ),
+				'updates' => self::checkUpdates( $theme_shortname, $theme['Version'] ),
 			) );
 		}
 
@@ -34,15 +35,21 @@ class Theme_Model {
 	 *
 	 * @return array
 	 */
-	private static function checkUpdates( $theme ) {
-		$list = get_option( '_site_transient_update_themes' );
+	private static function checkUpdates( $theme, $current ) {
+		$list = get_site_transient( 'update_themes' );
 
 		if ( is_array( $list->response ) ) {
 			if ( array_key_exists( $theme, $list->response ) ) {
-				return array(
-					'required' => true,
-					'version'  => $list->response[ $theme ]['new_version']
-				);
+				if ( $list->response[ $theme ]['new_version'] != $current ) {
+					return array(
+						'required' => true,
+						'version'  => $list->response[ $theme ]['new_version']
+					);
+				} else {
+					return array(
+						'required' => false,
+					);
+				}
 			} else {
 				return array(
 					'required' => false,
