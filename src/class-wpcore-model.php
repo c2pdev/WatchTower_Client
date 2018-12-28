@@ -54,7 +54,7 @@ class WPCore_Model
     static function userLogs()
     {
         global $wpdb;
-        $results = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}watchtower_logs LIMIT 100", OBJECT);
+        $results = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}watchtower_logs ORDER BY id DESC LIMIT 100", OBJECT);
         $to_ret = [];
         foreach ($results as $result) {
             $user_info = ($result->who != 0) ? get_userdata($result->who)->user_login : 'Auto Update';

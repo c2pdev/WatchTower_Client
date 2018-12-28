@@ -54,3 +54,4 @@ crashlytics-build.properties
 /vendor/php-curl-class/php-curl-class/docs/
 /vendor/php-curl-class/php-curl-class/tests/
 /vendor/php-curl-class/php-curl-class/www/
+.DS_Store
