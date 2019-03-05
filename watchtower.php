@@ -4,7 +4,7 @@
  * Plugin URI: https://github.com/c2pdev/WatchTower_Client
  * Description: The WhatArmy WordPress plugin allows us to monitor, backup, upgrade, and manage your site!
  * Author: Whatarmy
- * Version: 1.6.8
+ * Version: 1.6.9
  * Author URI: http://whatarmy.com
  **/
 define('MP_LARGE_DOWNLOADS', true);
@@ -117,9 +117,9 @@ add_filter('auto_update_plugin', 'auto_update_specific_plugins', 10, 2);
  */
 function WhtGenerateRandomString($length = 12)
 {
-    $characters       = '0123456789abcdefghijklmnopqrstuvwxyz';
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
     $charactersLength = strlen($characters);
-    $randomString     = '';
+    $randomString = '';
     for ($i = 0; $i < $length; $i++) {
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
@@ -155,7 +155,7 @@ function WHTAddToZip($files)
         ini_set('memory_limit', '512M');
     }
     $archive_location = WHT_BACKUP_DIR . '/' . $files['zip'] . '.zip';
-    $zippy            = new ZipArchive();
+    $zippy = new ZipArchive();
     $zippy->open($archive_location, ZipArchive::CREATE);
 
     foreach ($files['f'] as $file) {
@@ -163,7 +163,7 @@ function WHTAddToZip($files)
     }
     $zippy->close();
 
-    $failed  = WHTQueueStatus('failed');
+    $failed = WHTQueueStatus('failed');
     $pending = WHTQueueStatus('pending');
     if ($failed == 0 && $pending == 0) {
         WHTCleanQueue();
@@ -211,6 +211,19 @@ function WHTQueueStatus($status)
 }
 
 /**
+ * @param $backup_name
+ * @return bool
+ * @throws Exception
+ */
+function makeMysqlBackup($backup_name)
+{
+    $dump = new MySQLDump(new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME));
+    $dump->save(WHT_BACKUP_DIR . '/' . $backup_name . '.sql.gz');
+
+    return $backup_name . '.sql.gz';
+}
+
+/**
  * @return string
  * @throws Exception
  */
@@ -219,8 +232,7 @@ function WhtRunDbBackup()
     WhtCreateBackupDIR();
     $backup_name = date('Y_m_d__H_i_s') . "_" . WhtGenerateRandomString();
 
-    $dump = new MySQLDump(new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME));
-    $dump->save(WHT_BACKUP_DIR . '/' . $backup_name . '.sql.gz');
+    makeMysqlBackup($backup_name);
 
     if (get_option('watchtower')['file_backup'] == 1) {
         if (!file_exists(WHT_BACKUP_DIR . "/backup.job")) {
@@ -228,8 +240,8 @@ function WhtRunDbBackup()
         }
 
         $file = new SplFileObject(WHT_BACKUP_DIR . "/backup.job");
-        $ct   = 0;
-        $arr  = [];
+        $ct = 0;
+        $arr = [];
         while (!$file->eof()) {
             $f = str_replace(ABSPATH, "", $file->fgets());
             if ($f != '') {
@@ -246,7 +258,7 @@ function WhtRunDbBackup()
                     ]
                 ]);
                 $arr = [];
-                $ct  = 0;
+                $ct = 0;
             }
             if ($file->eof()) {
                 wc_schedule_single_action(time(), 'add_to_zip', [
@@ -257,7 +269,7 @@ function WhtRunDbBackup()
                     ]
                 ]);
                 $arr = [];
-                $ct  = 0;
+                $ct = 0;
             }
         }
         $file = null;
@@ -313,8 +325,8 @@ function WHTgetExclusions()
             "verify_peer_name" => false,
         ),
     );
-    $data              = file_get_contents(WHT_HEADQUARTER_BACKUP_EX, false, stream_context_create($arrContextOptions));
-    $ret               = array();
+    $data = file_get_contents(WHT_HEADQUARTER_BACKUP_EX, false, stream_context_create($arrContextOptions));
+    $ret = array();
     //array_push( $ret, WP_CONTENT_DIR . '/uploads' );
     if (WHTisJson($data)) {
         foreach (json_decode($data) as $d) {
@@ -381,7 +393,7 @@ function WHTdelDir($files)
 function WHTclearOldBackups()
 {
     WHTCleanQueue();
-    $files      = glob(WHT_BACKUP_DIR . '/*'); // get all file names
+    $files = glob(WHT_BACKUP_DIR . '/*'); // get all file names
     $exceptions = [".htaccess", "index.html", "web.config"];
     foreach ($files as $file) { // iterate files
         if (is_file($file) && !in_array(end(explode("/", $file)), $exceptions)) {
@@ -396,7 +408,7 @@ function WHTclearOldBackups()
 function callWHTHeadquarter($backup_name)
 {
     //clean done queue
-    $curl                                    = new Curl();
+    $curl = new Curl();
     $curl->options['CURLOPT_SSL_VERIFYPEER'] = false;
     $curl->options['CURLOPT_SSL_VERIFYHOST'] = false;
     $curl->get(WHT_HEADQUARTER_BACKUP_ENDPOINT, array(
@@ -408,7 +420,7 @@ function callWHTHeadquarter($backup_name)
 function callWHTHeadquarterBackupError()
 {
     //clean done queue
-    $curl                                    = new Curl();
+    $curl = new Curl();
     $curl->options['CURLOPT_SSL_VERIFYPEER'] = false;
     $curl->options['CURLOPT_SSL_VERIFYHOST'] = false;
     $curl->get(WHT_HEADQUARTER_BACKUP_ENDPOINT, array(
