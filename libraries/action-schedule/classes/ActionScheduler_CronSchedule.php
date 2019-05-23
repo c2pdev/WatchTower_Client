@@ -32,11 +32,18 @@ class ActionScheduler_CronSchedule implements ActionScheduler_Schedule {
 	}
 
 	/**
+	 * @return string
+	 */
+	public function get_recurrence() {
+		return strval($this->cron);
+	}
+
+	/**
 	 * For PHP 5.2 compat, since DateTime objects can't be serialized
 	 * @return array
 	 */
 	public function __sleep() {
-		$this->start_timestamp = $this->start->format('U');
+		$this->start_timestamp = $this->start->getTimestamp();
 		return array(
 			'start_timestamp',
 			'cron'
