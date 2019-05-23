@@ -4,7 +4,7 @@
  * Plugin URI: https://github.com/c2pdev/WatchTower_Client
  * Description: The WhatArmy WordPress plugin allows us to monitor, backup, upgrade, and manage your site!
  * Author: Whatarmy
- * Version: 1.6.9
+ * Version: 1.7.1
  * Author URI: http://whatarmy.com
  **/
 define('MP_LARGE_DOWNLOADS', true);
@@ -20,7 +20,7 @@ if (version_compare(PHP_VERSION, '5.4', '<')) {
  */
 define('DISALLOW_FILE_EDIT', true);
 
-define('WHT_BACKUP_DIR', wp_upload_dir()['basedir'] . '/watchtower_backups');
+define('WHT_BACKUP_DIR', wp_upload_dir()['basedir'].'/watchtower_backups');
 define('WHT_HEADQUARTER_BACKUP_ENDPOINT', 'https://watchtower.whatarmy.com/backup');
 define('WHT_HEADQUARTER_BACKUP_ERROR_ENDPOINT', 'https://watchtower.whatarmy.com/backup_error');
 define('WHT_HEADQUARTER_BACKUP_EX', 'https://watchtower.whatarmy.com/backupExclusions');
@@ -47,13 +47,13 @@ $myUpdateChecker->setBranch('master');
 /**
  * Register autoload SRC
  */
-register_wp_autoload('Whatarmy_Watchtower\\', __DIR__ . '/src');
+register_wp_autoload('Whatarmy_Watchtower\\', __DIR__.'/src');
 
 /**
  * Include Plugin Class
  */
 if (!function_exists('get_plugins')) {
-    require_once ABSPATH . 'wp-admin/includes/plugin.php';
+    require_once ABSPATH.'wp-admin/includes/plugin.php';
 }
 /**
  * Activation Hook
@@ -111,7 +111,7 @@ add_filter('auto_update_plugin', 'auto_update_specific_plugins', 10, 2);
  */
 
 /**
- * @param int $length
+ * @param  int  $length
  *
  * @return string
  */
@@ -133,17 +133,19 @@ function WhtCreateBackupDIR()
         mkdir(WHT_BACKUP_DIR, 0777, true);
     }
     if ((!is_dir(WHT_BACKUP_DIR) ||
-            !is_file(WHT_BACKUP_DIR . '/index.html') ||
-            !is_file(WHT_BACKUP_DIR . '/.htaccess')) &&
-        !is_file(WHT_BACKUP_DIR . '/index.php') ||
-        !is_file(WHT_BACKUP_DIR . '/web.config')) {
+            !is_file(WHT_BACKUP_DIR.'/index.html') ||
+            !is_file(WHT_BACKUP_DIR.'/.htaccess')) &&
+        !is_file(WHT_BACKUP_DIR.'/index.php') ||
+        !is_file(WHT_BACKUP_DIR.'/web.config')) {
         @mkdir(WHT_BACKUP_DIR, 0775, true);
-        @file_put_contents(WHT_BACKUP_DIR . '/index.html', "<html><body><a href=\"https://whatarmy.com\">WordPress backups by Watchtower</a></body></html>");
-        if (!is_file(WHT_BACKUP_DIR . '/.htaccess')) {
-            @file_put_contents(WHT_BACKUP_DIR . '/.htaccess', 'deny from all');
+        @file_put_contents(WHT_BACKUP_DIR.'/index.html',
+            "<html><body><a href=\"https://whatarmy.com\">WordPress backups by Watchtower</a></body></html>");
+        if (!is_file(WHT_BACKUP_DIR.'/.htaccess')) {
+            @file_put_contents(WHT_BACKUP_DIR.'/.htaccess', 'deny from all');
         }
-        if (!is_file(WHT_BACKUP_DIR . '/web.config')) {
-            @file_put_contents(WHT_BACKUP_DIR . '/web.config', "<configuration>\n<system.webServer>\n<authorization>\n<deny users=\"*\" />\n</authorization>\n</system.webServer>\n</configuration>\n");
+        if (!is_file(WHT_BACKUP_DIR.'/web.config')) {
+            @file_put_contents(WHT_BACKUP_DIR.'/web.config',
+                "<configuration>\n<system.webServer>\n<authorization>\n<deny users=\"*\" />\n</authorization>\n</system.webServer>\n</configuration>\n");
         }
     }
 }
@@ -154,12 +156,12 @@ function WHTAddToZip($files)
     if (defined('WPE_ISP')) {
         ini_set('memory_limit', '512M');
     }
-    $archive_location = WHT_BACKUP_DIR . '/' . $files['zip'] . '.zip';
+    $archive_location = WHT_BACKUP_DIR.'/'.$files['zip'].'.zip';
     $zippy = new ZipArchive();
     $zippy->open($archive_location, ZipArchive::CREATE);
 
     foreach ($files['f'] as $file) {
-        $zippy->addFile(ABSPATH . $file, $file);
+        $zippy->addFile(ABSPATH.$file, $file);
     }
     $zippy->close();
 
@@ -183,15 +185,17 @@ function WHTCleanQueue()
 {
     global $wpdb;
     $tasks = $wpdb->get_results('SELECT ID 
-	FROM ' . $wpdb->posts . '
+	FROM '.$wpdb->posts.'
 	WHERE post_type = "scheduled-action" 
 		AND post_title = "add_to_zip"');
 
     foreach ($tasks as $task) {
         $task_id = $task->ID;
-        $wpdb->delete($wpdb->prefix . 'comments', array('comment_author' => 'ActionScheduler', 'comment_post_ID' => $task_id));
-        $wpdb->delete($wpdb->prefix . 'postmeta', array('meta_key' => '_action_manager_schedule', 'post_id' => $task_id));
-        $wpdb->delete($wpdb->prefix . 'posts', array('post_type' => 'scheduled-action', 'post_title' => 'add_to_zip', 'ID' => $task_id));
+        $wpdb->delete($wpdb->prefix.'comments',
+            array('comment_author' => 'ActionScheduler', 'comment_post_ID' => $task_id));
+        $wpdb->delete($wpdb->prefix.'postmeta', array('meta_key' => '_action_manager_schedule', 'post_id' => $task_id));
+        $wpdb->delete($wpdb->prefix.'posts',
+            array('post_type' => 'scheduled-action', 'post_title' => 'add_to_zip', 'ID' => $task_id));
     }
 
 
@@ -205,7 +209,8 @@ function WHTCleanQueue()
 function WHTQueueStatus($status)
 {
     global $wpdb;
-    $results = $wpdb->get_results("SELECT id FROM {$wpdb->prefix}posts WHERE post_type = 'scheduled-action' AND post_title ='add_to_zip' AND post_status = '" . $status . "'", OBJECT);
+    $results = $wpdb->get_results("SELECT id FROM {$wpdb->prefix}posts WHERE post_type = 'scheduled-action' AND post_title ='add_to_zip' AND post_status = '".$status."'",
+        OBJECT);
 
     return count($results);
 }
@@ -218,9 +223,9 @@ function WHTQueueStatus($status)
 function makeMysqlBackup($backup_name)
 {
     $dump = new MySQLDump(new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME));
-    $dump->save(WHT_BACKUP_DIR . '/' . $backup_name . '.sql.gz');
+    $dump->save(WHT_BACKUP_DIR.'/'.$backup_name.'.sql.gz');
 
-    return $backup_name . '.sql.gz';
+    return $backup_name.'.sql.gz';
 }
 
 /**
@@ -230,16 +235,16 @@ function makeMysqlBackup($backup_name)
 function WhtRunDbBackup()
 {
     WhtCreateBackupDIR();
-    $backup_name = date('Y_m_d__H_i_s') . "_" . WhtGenerateRandomString();
+    $backup_name = date('Y_m_d__H_i_s')."_".WhtGenerateRandomString();
 
     makeMysqlBackup($backup_name);
 
     if (get_option('watchtower')['file_backup'] == 1) {
-        if (!file_exists(WHT_BACKUP_DIR . "/backup.job")) {
+        if (!file_exists(WHT_BACKUP_DIR."/backup.job")) {
             createJobList();
         }
 
-        $file = new SplFileObject(WHT_BACKUP_DIR . "/backup.job");
+        $file = new SplFileObject(WHT_BACKUP_DIR."/backup.job");
         $ct = 0;
         $arr = [];
         while (!$file->eof()) {
@@ -305,7 +310,7 @@ function createJobList()
         }
         $path = $file->getPathname();
         if (!strposa($path, $excludes) && $path != '') {
-            file_put_contents(WHT_BACKUP_DIR . '/backup.job', $path . PHP_EOL, FILE_APPEND | LOCK_EX);
+            file_put_contents(WHT_BACKUP_DIR.'/backup.job', $path.PHP_EOL, FILE_APPEND | LOCK_EX);
         }
     }
 }
@@ -332,9 +337,9 @@ function WHTgetExclusions()
         foreach (json_decode($data) as $d) {
             $p = '';
             if ($d->isContentDir == true) {
-                $p = WP_CONTENT_DIR . '/' . $d->path;
+                $p = WP_CONTENT_DIR.'/'.$d->path;
             } else {
-                $p = ABSPATH . $d->path;
+                $p = ABSPATH.$d->path;
             }
             array_push($ret, $p);
         }
@@ -393,7 +398,7 @@ function WHTdelDir($files)
 function WHTclearOldBackups()
 {
     WHTCleanQueue();
-    $files = glob(WHT_BACKUP_DIR . '/*'); // get all file names
+    $files = glob(WHT_BACKUP_DIR.'/*'); // get all file names
     $exceptions = [".htaccess", "index.html", "web.config"];
     foreach ($files as $file) { // iterate files
         if (is_file($file) && !in_array(end(explode("/", $file)), $exceptions)) {

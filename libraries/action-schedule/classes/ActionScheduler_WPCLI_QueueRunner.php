@@ -27,7 +27,8 @@ class ActionScheduler_WPCLI_QueueRunner extends ActionScheduler_Abstract_QueueRu
 	 */
 	public function __construct( ActionScheduler_Store $store = null, ActionScheduler_FatalErrorMonitor $monitor = null, ActionScheduler_QueueCleaner $cleaner = null ) {
 		if ( ! ( defined( 'WP_CLI' ) && WP_CLI ) ) {
-			throw new Exception( __( 'The ' . __CLASS__ . ' class can only be run within WP CLI.', 'action-scheduler' ) );
+			/* translators: %s php class name */
+			throw new Exception( sprintf( __( 'The %s class can only be run within WP CLI.', 'action-scheduler' ), __CLASS__ ) );
 		}
 
 		parent::__construct( $store, $monitor, $cleaner );
@@ -38,19 +39,21 @@ class ActionScheduler_WPCLI_QueueRunner extends ActionScheduler_Abstract_QueueRu
 	 *
 	 * @author Jeremy Pry
 	 *
-	 * @param int  $batch_size The batch size to process.
-	 * @param bool $force      Whether to force running even with too many concurrent processes.
+	 * @param int    $batch_size The batch size to process.
+	 * @param array  $hooks      The hooks being used to filter the actions claimed in this batch.
+	 * @param string $group      The group of actions to claim with this batch.
+	 * @param bool   $force      Whether to force running even with too many concurrent processes.
 	 *
 	 * @return int The number of actions that will be run.
 	 * @throws \WP_CLI\ExitException When there are too many concurrent batches.
 	 */
-	public function setup( $batch_size, $force = false ) {
+	public function setup( $batch_size, $hooks = array(), $group = '', $force = false ) {
 		$this->run_cleanup();
 		$this->add_hooks();
 
 		// Check to make sure there aren't too many concurrent processes running.
 		$claim_count = $this->store->get_claim_count();
-		$too_many    = $claim_count >= apply_filters( 'action_scheduler_queue_runner_concurrent_batches', 5 );
+		$too_many    = $claim_count >= $this->get_allowed_concurrent_batches();
 		if ( $too_many ) {
 			if ( $force ) {
 				WP_CLI::warning( __( 'There are too many concurrent batches, but the run is forced to continue.', 'action-scheduler' ) );
@@ -60,7 +63,7 @@ class ActionScheduler_WPCLI_QueueRunner extends ActionScheduler_Abstract_QueueRu
 		}
 
 		// Stake a claim and store it.
-		$this->claim = $this->store->stake_claim( $batch_size );
+		$this->claim = $this->store->stake_claim( $batch_size, null, $hooks, $group );
 		$this->monitor->attach( $this->claim );
 		$this->actions = $this->claim->get_actions();
 
@@ -74,8 +77,8 @@ class ActionScheduler_WPCLI_QueueRunner extends ActionScheduler_Abstract_QueueRu
 	 */
 	protected function add_hooks() {
 		add_action( 'action_scheduler_before_execute', array( $this, 'before_execute' ) );
-		add_action( 'action_scheduler_after_execute', array( $this, 'after_execute' ) );
-		add_action( 'action_scheduler_failed_execution', array( $this, 'action_failed' ) );
+		add_action( 'action_scheduler_after_execute', array( $this, 'after_execute' ), 10, 2 );
+		add_action( 'action_scheduler_failed_execution', array( $this, 'action_failed' ), 10, 2 );
 	}
 
 	/**
@@ -92,20 +95,10 @@ class ActionScheduler_WPCLI_QueueRunner extends ActionScheduler_Abstract_QueueRu
 	}
 
 	/**
-	 * Ensure the progress bar has finished properly.
-	 *
-	 * @author Jeremy Pry
-	 */
-	protected function finish_progress_bar() {
-		$this->progress_bar->finish();
-	}
-
-	/**
 	 * Process actions in the queue.
 	 *
 	 * @author Jeremy Pry
 	 * @return int The number of actions processed.
-	 * @throws \WP_CLI\ExitException When the claim is lost.
 	 */
 	public function run() {
 		do_action( 'action_scheduler_before_process_queue' );
@@ -113,21 +106,17 @@ class ActionScheduler_WPCLI_QueueRunner extends ActionScheduler_Abstract_QueueRu
 		foreach ( $this->actions as $action_id ) {
 			// Error if we lost the claim.
 			if ( ! in_array( $action_id, $this->store->find_actions_by_claim_id( $this->claim->get_id() ) ) ) {
-				$this->finish_progress_bar();
-				WP_CLI::error( __( 'The claim has been lost. Aborting.', 'action-scheduler' ) );
+				WP_CLI::warning( __( 'The claim has been lost. Aborting current batch.', 'action-scheduler' ) );
+				break;
 			}
 
 			$this->process_action( $action_id );
 			$this->progress_bar->tick();
-
-			// Free up memory after every 50 items
-			if ( 0 === $this->progress_bar->current() % 50 ) {
-				$this->stop_the_insanity();
-			}
+			$this->maybe_stop_the_insanity();
 		}
 
 		$completed = $this->progress_bar->current();
-		$this->finish_progress_bar();
+		$this->progress_bar->finish();
 		$this->store->release_claim( $this->claim );
 		do_action( 'action_scheduler_after_process_queue' );
 
@@ -151,11 +140,16 @@ class ActionScheduler_WPCLI_QueueRunner extends ActionScheduler_Abstract_QueueRu
 	 *
 	 * @author Jeremy Pry
 	 *
-	 * @param $action_id
+	 * @param int $action_id
+	 * @param null|ActionScheduler_Action $action The instance of the action. Default to null for backward compatibility.
 	 */
-	public function after_execute( $action_id ) {
+	public function after_execute( $action_id, $action = null ) {
+		// backward compatibility
+		if ( null === $action ) {
+			$action = $this->store->fetch_action( $action_id );
+		}
 		/* translators: %s refers to the action ID */
-		WP_CLI::log( sprintf( __( 'Completed processing action %s', 'action-scheduler' ), $action_id ) );
+		WP_CLI::log( sprintf( __( 'Completed processing action %s with hook: %s', 'action-scheduler' ), $action_id, $action->get_hook() ) );
 	}
 
 	/**
@@ -207,6 +201,17 @@ class ActionScheduler_WPCLI_QueueRunner extends ActionScheduler_Abstract_QueueRu
 
 		if ( is_callable( array( $wp_object_cache, '__remoteset' ) ) ) {
 			call_user_func( array( $wp_object_cache, '__remoteset' ) ); // important
+		}
+	}
+
+	/**
+	 * Maybe trigger the stop_the_insanity() method to free up memory.
+	 */
+	protected function maybe_stop_the_insanity() {
+		// The value returned by progress_bar->current() might be padded. Remove padding, and convert to int.
+		$current_iteration = intval( trim( $this->progress_bar->current() ) );
+		if ( 0 === $current_iteration % 50 ) {
+			$this->stop_the_insanity();
 		}
 	}
 }

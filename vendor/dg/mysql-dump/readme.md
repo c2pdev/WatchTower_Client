@@ -4,7 +4,7 @@ MySQL Dump Utility
 This is a backup utility used to dump a database for backup or transfer to another MySQL server.
 The dump typically contains SQL statements to create the table, populate it, or both.
 
-It requires PHP 5.0.5 or later.
+It requires PHP 5.6 or later.
 
 Usage
 -----
@@ -36,7 +36,4 @@ $import = new MySQLImport($db);
 $import->load('dump.sql.gz');
 ```
 
------
-Project at GitHub: http://github.com/dg/MySQL-dump
-
-(c) David Grudl, 2008, 2013 (http://davidgrudl.com)
+If you like it, **[please make a donation now](https://nette.org/make-donation?to=mysql-dump)**. Thank you!
