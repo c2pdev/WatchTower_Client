@@ -9,6 +9,8 @@
 namespace Whatarmy_Watchtower;
 
 
+use Curl;
+
 class WPCore_Model
 {
 
@@ -25,13 +27,13 @@ class WPCore_Model
             'template'          => get_option('template'),
             'wp_version'        => get_bloginfo('version'),
             'admin_email'       => get_option('admin_email'),
-            'php_version'       => phpversion(),
+            'php_version'       => self::phpVersion(),
             'updates'           => self::checkUpdates(),
             'is_public'         => get_option('blog_public'),
             'installation_size' => self::display_size(self::filesize_recursive(ABSPATH)),
             'comments'          => wp_count_comments(),
             'comments_allowed'  => (get_default_comment_status() == 'open') ? true : false,
-            'site_ip'           => $_SERVER['REMOTE_ADDR'],
+            'site_ip'           => self::getExternalIp(),
             'db_size'           => self::getDBSize(),
             'timezone'          => array(
                 'gmt_offset'      => get_option('gmt_offset'),
@@ -54,7 +56,8 @@ class WPCore_Model
     static function userLogs()
     {
         global $wpdb;
-        $results = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}watchtower_logs ORDER BY id DESC LIMIT 100", OBJECT);
+        $results = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}watchtower_logs ORDER BY id DESC LIMIT 100",
+            OBJECT);
         $to_ret = [];
         foreach ($results as $result) {
             $user_info = ($result->who != 0) ? get_userdata($result->who)->user_login : 'Auto Update';
@@ -67,7 +70,7 @@ class WPCore_Model
 
     static function generate_ota_token()
     {
-        $ota_token = 'ota_' . md5(uniqid());
+        $ota_token = 'ota_'.md5(uniqid());
         update_option('watchtower_ota_token', $ota_token);
 
         return array(
@@ -129,6 +132,26 @@ class WPCore_Model
         return $admins;
     }
 
+    private static function phpVersion()
+    {
+
+        preg_match("#^\d+(\.\d+)*#", phpversion(), $match);
+        return $match[0];
+    }
+
+    /**
+     * @return mixed
+     */
+    private static function getExternalIp()
+    {
+        $curl = new Curl();
+        $curl->options['CURLOPT_SSL_VERIFYPEER'] = false;
+        $curl->options['CURLOPT_SSL_VERIFYHOST'] = false;
+        $ip = json_decode($curl->get('https://api.ipify.org?format=json'))->ip;
+
+        return $ip;
+    }
+
     /**
      * @return int
      */
@@ -138,7 +161,7 @@ class WPCore_Model
 
         $querystr = 'SELECT  ROUND(SUM(((DATA_LENGTH + INDEX_LENGTH)/1024/1024)),2) AS "MB"
         FROM INFORMATION_SCHEMA.TABLES
-	WHERE TABLE_SCHEMA = "' . $wpdb->dbname . '";';
+	WHERE TABLE_SCHEMA = "'.$wpdb->dbname.'";';
 
 
         $query = $wpdb->get_row($querystr);
@@ -156,7 +179,7 @@ class WPCore_Model
         $update_core = get_site_transient("update_core"); // get information of updates
 
         if ('upgrade' == $update_core->updates[0]->response) {
-            require_once(ABSPATH . WPINC . '/version.php');
+            require_once(ABSPATH.WPINC.'/version.php');
             $new_core_ver = $update_core->updates[0]->current; // The new WP core version
             $old_core_ver = $wp_version; // the old WP core versions
 
@@ -184,7 +207,8 @@ class WPCore_Model
         $bytestotal = 0;
         $path = realpath($path);
         if ($path !== false && $path != '' && file_exists($path)) {
-            foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS)) as $object) {
+            foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path,
+                \FilesystemIterator::SKIP_DOTS)) as $object) {
                 $bytestotal += $object->getSize();
             }
         }
