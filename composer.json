@@ -1,27 +1,34 @@
 {
-  "name": "frozzare/wp-autoload",
-  "description": "Simple autoloader that will autoload classes or traits with namespace prefix",
-  "keywords": ["wordpress", "autoload", "namespace"],
-  "license": "MIT",
+  "name": "c2p/whatarmy_watchtower",
+  "license": "GPL-3.0",
+  "type": "project",
   "authors": [
     {
-      "name": "Fredrik Forsmo",
-      "email": "fredrik.forsmo@gmail.com"
+      "name": "Code2Prog",
+      "email": "office@code2prog.com"
     }
   ],
+  "autoload": {
+    "psr-4": {
+      "WhatArmy\\Watchtower\\": "src"
+    }
+  },
+  "config": {
+    "preferred-install": {
+      "*": "dist"
+    }
+  },
   "require": {
-    "php": ">=5.4",
+    "claudiosanches/wp-autoloader": "^1.0",
+    "php": ">=5.6",
     "dg/mysql-dump": "dev-master",
     "shuber/curl": "dev-master",
-    "alchemy/zippy": "^0.3"
-  },
-  "require-dev": {
-
-  },
-  "autoload": {
-    "files": [
-      "src/autoload.php"
-    ]
-  },
-  "minimum-stability": "dev"
+    "alchemy/zippy": "^0.3",
+    "ext-zip": "*",
+    "ext-mysqli": "*",
+    "ext-json": "*",
+    "prospress/action-scheduler": "dev-master",
+    "yahnis-elsts/plugin-update-checker": "^4.6",
+    "ext-fileinfo": "*"
+  }
 }

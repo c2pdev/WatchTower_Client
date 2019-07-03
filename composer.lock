@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "86aab78c2362f1ae6a80f5b679f88234",
+    "content-hash": "d2bcd374d32da120d2cb90a896220cb0",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -69,6 +69,48 @@
             "time": "2016-02-15T22:46:40+00:00"
         },
         {
+            "name": "claudiosanches/wp-autoloader",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/claudiosanches/wp-autoloader.git",
+                "reference": "59343146803ccf33bcd4b63a5c0a71e5eedcac8e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/claudiosanches/wp-autoloader/zipball/59343146803ccf33bcd4b63a5c0a71e5eedcac8e",
+                "reference": "59343146803ccf33bcd4b63a5c0a71e5eedcac8e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ClaudioSanches\\WPAutoloader\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Claudio Sanches",
+                    "homepage": "https://claudiosmweb.com"
+                }
+            ],
+            "description": "Autoload classes following WordPress naming convertions",
+            "keywords": [
+                "wordpress"
+            ],
+            "time": "2017-01-17T04:16:59+00:00"
+        },
+        {
             "name": "dg/mysql-dump",
             "version": "dev-master",
             "source": {
@@ -110,16 +152,16 @@
         },
         {
             "name": "doctrine/collections",
-            "version": "1.6.x-dev",
+            "version": "v1.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/collections.git",
-                "reference": "d2ae4ef05e25197343b6a39bae1d3c427a2f6956"
+                "reference": "c5e0bc17b1620e97c968ac409acbff28b8b850be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/collections/zipball/d2ae4ef05e25197343b6a39bae1d3c427a2f6956",
-                "reference": "d2ae4ef05e25197343b6a39bae1d3c427a2f6956",
+                "url": "https://api.github.com/repos/doctrine/collections/zipball/c5e0bc17b1620e97c968ac409acbff28b8b850be",
+                "reference": "c5e0bc17b1620e97c968ac409acbff28b8b850be",
                 "shasum": ""
             },
             "require": {
@@ -176,7 +218,32 @@
                 "iterators",
                 "php"
             ],
-            "time": "2019-03-25T19:03:48+00:00"
+            "time": "2019-06-09T13:48:14+00:00"
+        },
+        {
+            "name": "prospress/action-scheduler",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Prospress/action-scheduler.git",
+                "reference": "2da1a169a5a80fc2f731b1bdbd7893a57cde6ada"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Prospress/action-scheduler/zipball/2da1a169a5a80fc2f731b1bdbd7893a57cde6ada",
+                "reference": "2da1a169a5a80fc2f731b1bdbd7893a57cde6ada",
+                "shasum": ""
+            },
+            "require-dev": {
+                "wp-cli/wp-cli": "1.5.1"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "description": "Action Scheduler for WordPress and WooCommerce",
+            "time": "2019-06-14T01:27:55+00:00"
         },
         {
             "name": "shuber/curl",
@@ -213,16 +280,16 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "3.4.x-dev",
+            "version": "v3.4.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "acf99758b1df8e9295e6b85aa69f294565c9fedb"
+                "reference": "70adda061ef83bb7def63a17953dc41f203308a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/acf99758b1df8e9295e6b85aa69f294565c9fedb",
-                "reference": "acf99758b1df8e9295e6b85aa69f294565c9fedb",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/70adda061ef83bb7def63a17953dc41f203308a7",
+                "reference": "70adda061ef83bb7def63a17953dc41f203308a7",
                 "shasum": ""
             },
             "require": {
@@ -259,11 +326,11 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
-            "time": "2019-02-04T21:34:32+00:00"
+            "time": "2019-06-23T09:29:17+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "dev-master",
+            "version": "v1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
@@ -321,16 +388,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "3.4.x-dev",
+            "version": "v3.4.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "afe411c2a6084f25cff55a01d0d4e1474c97ff13"
+                "reference": "d129c017e8602507688ef2c3007951a16c1a8407"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/afe411c2a6084f25cff55a01d0d4e1474c97ff13",
-                "reference": "afe411c2a6084f25cff55a01d0d4e1474c97ff13",
+                "url": "https://api.github.com/repos/symfony/process/zipball/d129c017e8602507688ef2c3007951a16c1a8407",
+                "reference": "d129c017e8602507688ef2c3007951a16c1a8407",
                 "shasum": ""
             },
             "require": {
@@ -366,20 +433,70 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2019-05-22T12:54:11+00:00"
+            "time": "2019-05-30T15:47:52+00:00"
+        },
+        {
+            "name": "yahnis-elsts/plugin-update-checker",
+            "version": "v4.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/YahnisElsts/plugin-update-checker.git",
+                "reference": "45374e3c02126fbebebf0244c5d5da4c5e0166ac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/YahnisElsts/plugin-update-checker/zipball/45374e3c02126fbebebf0244c5d5da4c5e0166ac",
+                "reference": "45374e3c02126fbebebf0244c5d5da4c5e0166ac",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "plugin-update-checker.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Yahnis Elsts",
+                    "email": "whiteshadow@w-shadow.com",
+                    "homepage": "http://w-shadow.com/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A custom update checker for WordPress plugins and themes. Useful if you can't host your plugin in the official WP repository but still want it to support automatic updates.",
+            "homepage": "https://github.com/YahnisElsts/plugin-update-checker/",
+            "keywords": [
+                "automatic updates",
+                "plugin updates",
+                "theme updates",
+                "wordpress"
+            ],
+            "time": "2019-04-02T17:56:11+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "stability-flags": {
         "dg/mysql-dump": 20,
-        "shuber/curl": 20
+        "shuber/curl": 20,
+        "prospress/action-scheduler": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.4"
+        "php": ">=5.6",
+        "ext-zip": "*",
+        "ext-mysqli": "*",
+        "ext-json": "*",
+        "ext-fileinfo": "*"
     },
     "platform-dev": []
 }

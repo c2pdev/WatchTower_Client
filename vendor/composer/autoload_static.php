@@ -4,15 +4,19 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitc16e91179be88c035e719d9fc6c6a4e6
+class ComposerStaticInit87216f35db6777a92ad70e402f79128c
 {
     public static $files = array (
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         'ef6802c8a38664a4b1e8712ed25377fb' => __DIR__ . '/..' . '/shuber/curl/curl.php',
-        '35e59de4710b0d6ef1e7e82248a7a88e' => __DIR__ . '/../..' . '/src/autoload.php',
+        '89ff252b349d4d088742a09c25f5dd74' => __DIR__ . '/..' . '/yahnis-elsts/plugin-update-checker/plugin-update-checker.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'W' => 
+        array (
+            'WhatArmy\\Watchtower\\' => 20,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Ctype\\' => 23,
@@ -23,6 +27,10 @@ class ComposerStaticInitc16e91179be88c035e719d9fc6c6a4e6
         array (
             'Doctrine\\Common\\Collections\\' => 28,
         ),
+        'C' => 
+        array (
+            'ClaudioSanches\\WPAutoloader\\' => 28,
+        ),
         'A' => 
         array (
             'Alchemy\\Zippy\\' => 14,
@@ -30,6 +38,10 @@ class ComposerStaticInitc16e91179be88c035e719d9fc6c6a4e6
     );
 
     public static $prefixDirsPsr4 = array (
+        'WhatArmy\\Watchtower\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
+        ),
         'Symfony\\Polyfill\\Ctype\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
@@ -46,6 +58,10 @@ class ComposerStaticInitc16e91179be88c035e719d9fc6c6a4e6
         array (
             0 => __DIR__ . '/..' . '/doctrine/collections/lib/Doctrine/Common/Collections',
         ),
+        'ClaudioSanches\\WPAutoloader\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/claudiosanches/wp-autoloader/src',
+        ),
         'Alchemy\\Zippy\\' => 
         array (
             0 => __DIR__ . '/..' . '/alchemy/zippy/src',
@@ -60,9 +76,9 @@ class ComposerStaticInitc16e91179be88c035e719d9fc6c6a4e6
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitc16e91179be88c035e719d9fc6c6a4e6::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitc16e91179be88c035e719d9fc6c6a4e6::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitc16e91179be88c035e719d9fc6c6a4e6::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit87216f35db6777a92ad70e402f79128c::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit87216f35db6777a92ad70e402f79128c::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit87216f35db6777a92ad70e402f79128c::$classMap;
 
         }, null, ClassLoader::class);
     }

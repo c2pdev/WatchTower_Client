@@ -8,5 +8,5 @@ $baseDir = dirname($vendorDir);
 return array(
     '320cde22f66dd4f5d3fd621d3e88b98f' => $vendorDir . '/symfony/polyfill-ctype/bootstrap.php',
     'ef6802c8a38664a4b1e8712ed25377fb' => $vendorDir . '/shuber/curl/curl.php',
-    '35e59de4710b0d6ef1e7e82248a7a88e' => $baseDir . '/src/autoload.php',
+    '89ff252b349d4d088742a09c25f5dd74' => $vendorDir . '/yahnis-elsts/plugin-update-checker/plugin-update-checker.php',
 );
