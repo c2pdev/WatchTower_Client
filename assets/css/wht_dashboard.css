@@ -1,0 +1,69 @@
+.centered {
+    text-align: center;
+}
+
+.titled {
+    font-size: 30px !important;
+    color: #333 !important;
+    margin-bottom: 30px !important;
+}
+
+td {
+    text-align: right;
+}
+
+#wht-copied {
+    color: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.39);
+    font-weight: bold;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    height: 100%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wht-wrap {
+    max-width: 700px;
+    background: #fff;
+    padding: 10px 30px 10px 30px;
+}
+
+.watchtower_token_field {
+    position: relative;
+    background: #ffea96 !important;
+    border: solid 1px #333;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    padding: 20px 20px !important;
+    cursor: pointer;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.watchtower_token_area, .watchtower_token_field {
+    font-size: 20px;
+    padding: 10px;
+}
+
+.watchtower_token_area {
+    margin: auto;
+    float: left;
+    padding-left: 0px;
+}
